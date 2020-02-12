@@ -1,0 +1,6 @@
+FROM centos:7
+
+RUN yum install java-1.8.0-openjdk-devel -y
+RUN cd /SharedVolume/apache-jmeter-5.2.1/bin
+
+ENTRYPOINT ["./create-rmi-keystore.sh"]
