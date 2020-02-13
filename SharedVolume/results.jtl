@@ -1,0 +1,7 @@
+timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success,failureMessage,bytes,sentBytes,grpThreads,allThreads,URL,Latency,IdleTime,Connect
+1581605266918,176,HTTP Request,200,OK,172.17.0.2-Thread Group 1-1,text,true,,1542,263,1,1,http://192.168.0.11:8080/jpetstore/,161,0,123
+1581605266918,167,HTTP Request-0,302,Déplacé Temporairement,172.17.0.2-Thread Group 1-1,,true,,159,131,1,1,http://192.168.0.11:8080/jpetstore,161,0,123
+1581605267089,5,HTTP Request-1,200,OK,172.17.0.2-Thread Group 1-1,text,true,,1383,132,1,1,http://192.168.0.11:8080/jpetstore/,4,0,0
+1581605267709,98,HTTP Request,200,OK,172.17.0.3-Thread Group 1-1,text,true,,1542,263,1,1,http://192.168.0.11:8080/jpetstore/,86,0,61
+1581605267709,91,HTTP Request-0,302,Déplacé Temporairement,172.17.0.3-Thread Group 1-1,,true,,159,131,1,1,http://192.168.0.11:8080/jpetstore,86,0,61
+1581605267804,3,HTTP Request-1,200,OK,172.17.0.3-Thread Group 1-1,text,true,,1383,132,1,1,http://192.168.0.11:8080/jpetstore/,3,0,0

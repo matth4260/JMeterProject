@@ -1,30 +1,42 @@
 #!/bin/sh
 
-echo "Generating the rmi keystore"
+echo "checking if result directory exist"
+if [ -d "SharedVolume/Results" ] 
+then
+	echo "The directory "SharedVolume/Results" exists. You need to remove this directory to perfom the test"
+	exit 0
+fi
+
+
+
+echo "Launching JMeterKey container"
 docker run --name jmeterkey -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmeterkey
 docker rm jmeterkey
-echo "rmi keystore generated"
+echo "Removing JMeterKey container"
 
-echo "Launching the servers"
-for i in $(seq 1 7);
+echo "Launching JMeterServers containers"
+for i in $(seq 1 2);
 do
 	echo "Launching server $i"
 	docker run --name jmeterserv$i -d -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmeterserv
 	echo "Server $i launched"
 done
+echo "All JMeterServers containers have been launched"
 
-echo "Launching controler"
+echo "Launching JMeterControler container"
 docker run --name jmetercont -it -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmetercont
-echo "Controler launched"
+echo "JMeterControler container launched and test executed"
 
-echo "Stopping all containers"
-for i in $(seq 1 7);
+echo "Stopping and removing JMeterServers containers"
+for i in $(seq 1 2);
 do
 	echo "Removing server $i"
 	docker stop jmeterserv$i
 	docker rm jmeterserv$i
 	echo "Server $i removed"
 done
-echo "Removing controler"
+echo "All JMeterServers containers have been removed"
+
+echo "Removing JMeterControler container"
 docker rm jmetercont
-echo "Controler removed"
+echo "JMeterControler container removed"

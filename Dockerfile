@@ -6,7 +6,5 @@ RUN wget https://www-us.apache.org/dist//jmeter/binaries/apache-jmeter-5.2.1.tgz
 RUN tar -xvzf apache-jmeter-5.2.1.tgz
 RUN rm -f apache-jmeter-5.2.1.tgz
 
-COPY scriptJMeterControlerBuild.sh /scriptJMeterControlerBuild.sh
-RUN chmod 777 /scriptJMeterControlerBuild.sh
+ENTRYPOINT ["/bin/bash"]
 
-ENTRYPOINT ["/scriptJMeterControlerBuild.sh"]
