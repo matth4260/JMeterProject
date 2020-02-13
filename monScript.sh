@@ -22,7 +22,7 @@ fi
 
 
 
-
+docker network create --attachable JMeter_Network
 
 
 echo "Launching JMeterKey container"
@@ -32,22 +32,24 @@ echo "Removing JMeterKey container"
 
 
 echo "Launching JMeterServers containers"
-for i in $(seq 1 2);
+for i in $(seq 1 $1);
 do
 	echo "Launching server $i"
-	docker run --name jmeterserv$i -d -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmeterserv
+	docker run --name jmeterserv$i --network=JMeter_Network -d -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmeterserv
+	#docker network connect JMeter_Network jmeterserv$i
 	echo "Server $i launched"
 done
 echo "All JMeterServers containers have been launched"
 
 
 echo "Launching JMeterControler container"
-docker run --name jmetercont -it -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume jmetercont
+docker run --name jmetercont --network=JMeter_Network -it -v /Users/leanovia/Documents/Docker/SharedVolume:/SharedVolume -e NUMBER_OF_INJECTORS=$1 jmetercont
+#docker network connect JMeter_Network jmetercont
 echo "JMeterControler container launched and test executed"
 
 
 echo "Stopping and removing JMeterServers containers"
-for i in $(seq 1 2);
+for i in $(seq 1 $1);
 do
 	echo "Removing server $i"
 	docker stop jmeterserv$i
