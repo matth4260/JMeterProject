@@ -187,7 +187,7 @@ $(document).ready(function() {
     }, [[0, 0]], 3);
 
     // Create statistics table
-    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 90, 0, 0.0, 34.188888888888876, 2, 149, 97.9, 119.45, 149.0, 77.05479452054794, 77.35578981164385, 13.193626926369864], "isController": false}, "titles": ["Label", "#Samples", "KO", "Error %", "Average", "Min", "Max", "90th pct", "95th pct", "99th pct", "Transactions\/s", "Received", "Sent"], "items": [{"data": ["HTTP Request-1", 30, 0, 0.0, 11.26666666666667, 2, 44, 23.0, 32.44999999999999, 44.0, 27.82931354359926, 37.58587952226345, 3.5873724489795915], "isController": false}, {"data": ["HTTP Request-0", 30, 0, 0.0, 38.833333333333336, 5, 106, 97.9, 102.14999999999999, 106.0, 25.751072961373392, 3.998457618025751, 3.294326716738197], "isController": false}, {"data": ["HTTP Request", 30, 0, 0.0, 52.46666666666667, 8, 149, 120.9, 134.7, 149.0, 25.684931506849313, 38.67789490582192, 6.596813463184932], "isController": false}]}, function(index, item){
+    createTable($("#statisticsTable"), {"supportsControllersDiscrimination": true, "overall": {"data": ["Total", 32757, 0, 0.0, 2.523643801324902, 0, 103, 4.0, 5.0, 6.0, 182.32773015696316, 183.08497648335745, 31.2188756714071], "isController": false}, "titles": ["Label", "#Samples", "KO", "Error %", "Average", "Min", "Max", "90th pct", "95th pct", "99th pct", "Transactions\/s", "Received", "Sent"], "items": [{"data": ["HTTP Request-1", 10919, 0, 0.0, 1.6549134536129582, 0, 26, 2.0, 3.0, 5.0, 60.80975718422811, 82.15132976964524, 7.838757762029405], "isController": false}, {"data": ["HTTP Request-0", 10919, 0, 0.0, 2.0702445278871524, 1, 98, 3.0, 3.0, 5.0, 60.77658662569994, 9.436989524888956, 7.775129734342474], "isController": false}, {"data": ["HTTP Request", 10919, 0, 0.0, 3.84577342247459, 1, 103, 5.0, 6.0, 11.0, 60.77591005232105, 91.54248824167873, 15.60943783570355], "isController": false}]}, function(index, item){
         switch(index){
             // Errors pct
             case 3:
@@ -226,7 +226,7 @@ $(document).ready(function() {
     }, [[1, 1]]);
 
         // Create top5 errors by sampler
-    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 90, 0, null, null, null, null, null, null, null, null, null, null], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
+    createTable($("#top5ErrorsBySamplerTable"), {"supportsControllersDiscrimination": false, "overall": {"data": ["Total", 32757, 0, null, null, null, null, null, null, null, null, null, null], "isController": false}, "titles": ["Sample", "#Samples", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors", "Error", "#Errors"], "items": [{"data": [], "isController": false}, {"data": [], "isController": false}, {"data": [], "isController": false}]}, function(index, item){
         return item;
     }, [[0, 0]], 0);
 

@@ -9,4 +9,8 @@ RUN rm -f apache-jmeter-5.2.1.tgz
 COPY scriptJMeterControlerBuild.sh /scriptJMeterControlerBuild.sh
 RUN chmod 777 /scriptJMeterControlerBuild.sh
 
+RUN wget https://github.com/NovatecConsulting/JMeter-InfluxDB-Writer/releases/download/v-1.2/JMeter-InfluxDB-Writer-plugin-1.2.jar
+RUN mv JMeter-InfluxDB-Writer-plugin-1.2.jar /apache-jmeter-5.2.1/lib/ext/
+RUN chmod 777 /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar
+
 ENTRYPOINT ["/scriptJMeterControlerBuild.sh"]

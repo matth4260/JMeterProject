@@ -1,0 +1,5 @@
+FROM influxdb
+
+COPY influxdb.conf /influxdb.conf 
+
+ENTRYPOINT ["influxd", "-config", "/influxdb.conf"]

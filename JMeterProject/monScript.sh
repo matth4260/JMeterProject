@@ -14,7 +14,7 @@
 
  
 
-docker network create --attachable JMeter_Network
+#docker network create --attachable JMeter_Network
 
 
 echo "Launching JMeterKey container"
@@ -54,10 +54,6 @@ echo "All JMeterServers containers have been removed"
 echo "Removing JMeterControler container"
 docker rm jmetercont
 echo "JMeterControler container removed"
-
-echo "Stopping docker network"
-docker network rm JMeter_Network
-echo "Docker network stopped"
 
 echo "Removing rmi keystore"
 rm SharedVolume/rmi_keystore.jks
