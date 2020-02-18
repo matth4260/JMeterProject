@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jmeterserv
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: jmeterserv
+    spec:
+      containers:
+        - name: jmeterserv
+          image: docker-registry-default.app.leanovia.net/project/jmeterserv:latest
+      restartPolicy: OnFailure
