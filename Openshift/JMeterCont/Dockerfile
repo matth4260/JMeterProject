@@ -15,7 +15,8 @@ RUN mv JMeter-InfluxDB-Writer-plugin-1.2.jar /apache-jmeter-5.2.1/lib/ext/
 
 COPY scriptJMeterControlerBuild.sh /scriptJMeterControlerBuild.sh
 RUN chgrp -R 0 scriptJMeterControlerBuild.sh && \
-    chmod -R g=u scriptJMeterControlerBuild.sh
+    chmod -R g=u scriptJMeterControlerBuild.sh && \
+    chmod +x scriptJMeterControlerBuild.sh
 
 ENTRYPOINT ["/scriptJMeterControlerBuild.sh"]
 USER 1001

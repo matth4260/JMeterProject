@@ -12,4 +12,6 @@ RUN chgrp 0 /scriptJMeterKey.sh && \
     chmod g=u /scriptJMeterKey.sh && \
     chmod +x /scriptJMeterKey.sh
 
-ENTRYPOINT ["/scriptJMeterKeyBuild.sh"]
+USER 1001
+
+ENTRYPOINT ["/scriptJMeterKey.sh"]
