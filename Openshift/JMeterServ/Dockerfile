@@ -8,10 +8,14 @@ RUN tar -xvzf apache-jmeter-5.2.1.tgz
 RUN rm -f apache-jmeter-5.2.1.tgz
 
 COPY scriptJMeterServerBuild.sh /scriptJMeterServerBuild.sh
-RUN chmod 777 /scriptJMeterServerBuild.sh
+RUN chgrp 0 /scriptJMeterServerBuild.sh && \
+    chmod g=u /scriptJMeterServerBuild.sh && \
+    chmod +x /scriptJMeterServerBuild.sh
 
 RUN wget https://github.com/NovatecConsulting/JMeter-InfluxDB-Writer/releases/download/v-1.2/JMeter-InfluxDB-Writer-plugin-1.2.jar
 RUN mv JMeter-InfluxDB-Writer-plugin-1.2.jar /apache-jmeter-5.2.1/lib/ext/
-RUN chmod 777 /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar
+RUN chgrp 0 /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar && \
+    chmod g=u /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar && \
+    chmod +x /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar
 
 ENTRYPOINT ["/scriptJMeterServerBuild.sh"]
