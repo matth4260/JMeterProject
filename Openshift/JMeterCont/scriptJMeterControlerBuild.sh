@@ -10,5 +10,6 @@ then
 	done
 fi
 echo "$list_ips"
-cp /SharedVolume/rmi_keystore.jks /rmi_keystore.jks
+cp /SharedVolume/rmi_keystore.jks /apache-jmeter-5.2.1/bin/rmi_keystore.jks
+cd /apache-jmeter-5.2.1/bin/
 /apache-jmeter-5.2.1/bin/jmeter -n -R$list_ips -t /SharedVolume/JMeterTest.jmx -l /SharedVolume/results.jtl -e -o /SharedVolume/Results

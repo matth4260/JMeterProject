@@ -18,6 +18,11 @@ RUN chgrp 0 /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar &
     chmod g=u /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar && \
     chmod +x /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar
 
+RUN mkdir FolderForRMI
+
+RUN chgrp -R 0 /apache-jmeter-5.2.1 && \
+    chmod -R g=u /apache-jmeter-5.2.1
+
 USER 1001
 
 ENTRYPOINT ["/scriptJMeterServerBuild.sh"]

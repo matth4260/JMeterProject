@@ -13,7 +13,7 @@
 
 [ -f "$2/results.jtl" ] && echo "The file "SharedVolume/results.jtl" exists. You need to remove this file to perform the test" && exit 0 
 
-docker network create --attachable JMeter_Network
+#docker network create --attachable JMeter_Network
 
 
 echo "Launching JMeterKey container"
@@ -55,6 +55,6 @@ docker rm jmetercont
 echo "JMeterControler container removed"
 
 echo "Removing rmi keystore"
-rm SharedVolume/rmi_keystore.jks
+rm $2/rmi_keystore.jks
 
-docker network rm JMeter_Network
+#docker network rm JMeter_Network

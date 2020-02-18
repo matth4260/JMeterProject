@@ -18,5 +18,10 @@ RUN chgrp -R 0 scriptJMeterControlerBuild.sh && \
     chmod -R g=u scriptJMeterControlerBuild.sh && \
     chmod +x scriptJMeterControlerBuild.sh
 
+RUN mkdir FolderForRMI
+RUN chgrp -R 0 FolderForRMI && \
+    chmod -R g=u FolderForRMI
+
+
 ENTRYPOINT ["/scriptJMeterControlerBuild.sh"]
 USER 1001
