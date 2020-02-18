@@ -1,8 +1,5 @@
 #!/bin/sh
 
-[ -d "SharedVolume/Results" ] && echo "The directory "SharedVolume/Results" exists. You need to remove this directory to perfom the test" && exit 0
-
-[ -f "SharedVolume/results.jtl" ] && echo "The file "SharedVolume/results.jtl" exists. You need to remove this file to perform the test" && exit 0
 
 #$1 = number of injectors
 [ -z "$1" ] && echo "You must choose the number of injectors (parameter one)" && exit 0
@@ -12,9 +9,11 @@
 #$2 = shared volume path
 [ -z "$2" ] && echo "you must specify the folder where your test is and where your results will go (parameter two)" && exit 0
 
- 
+[ -d "$2/Results" ] && echo "The directory "SharedVolume/Results" exists. You need to remove this directory to perfom the test" && exit 0
 
-#docker network create --attachable JMeter_Network
+[ -f "$2/results.jtl" ] && echo "The file "SharedVolume/results.jtl" exists. You need to remove this file to perform the test" && exit 0 
+
+docker network create --attachable JMeter_Network
 
 
 echo "Launching JMeterKey container"
@@ -57,3 +56,5 @@ echo "JMeterControler container removed"
 
 echo "Removing rmi keystore"
 rm SharedVolume/rmi_keystore.jks
+
+docker network rm JMeter_Network
