@@ -1,17 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: jobjmeterserv
+  name: jobjmeterkey
 spec:
-  parallelism: 2
-  completions: 2
+  parallelism: 1
+  completions: 1
   template:
     metadata:
-      name: jmeterserv
+      name: jmeterkey
     spec:
       containers:
-        - name: jmeterserv
-          image: docker-registry.default.svc:5000/jmeter/jmeterserv
+        - name: jmeterkey
+          image: docker-registry.default.svc:5000/jmeter/jmeterkey
           volumeMounts:
             - mountPath: /SharedVolume
               name: pvjmeter
