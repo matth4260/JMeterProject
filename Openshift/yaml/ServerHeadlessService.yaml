@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: jmeter-server
+  name: jmeter-server
+spec:
+  clusterIP: None
+  selector:
+    app: jmeterserv
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
