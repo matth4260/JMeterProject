@@ -2,6 +2,7 @@ FROM centos:7
 
 RUN yum install java-1.8.0-openjdk-devel -y
 RUN yum install wget -y
+RUN yum install bind-utils -y
 RUN wget https://www-us.apache.org/dist//jmeter/binaries/apache-jmeter-5.2.1.tgz
 RUN wget https://github.com/NovatecConsulting/JMeter-InfluxDB-Writer/releases/download/v-1.2/JMeter-InfluxDB-Writer-plugin-1.2.jar
 
