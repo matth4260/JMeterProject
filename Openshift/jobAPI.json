@@ -1,0 +1,42 @@
+{
+  "type": "Job",
+  "apiVersion": "batch/v1",
+  "metadata":
+  {
+    "name": "jobjmeterkey",
+    "namespace": "cloud.leanovia.net:8443"
+  },
+  "spec":
+  {
+    "parallelism": "1",
+    "completions": "1",
+    "template":
+    {
+      "metadata":
+      {
+        "name": "jmeterkey",
+        "spec":
+        {
+          "containers":
+          {
+            "- name": "jmeterkey",
+            "image": "docker-registry.default.svc:5000/jmeter/jmeterkey",
+            "volumeMounts":
+            {
+              "- mountPath": "/SharedVolume",
+              "name": "pvjmeter"
+            },
+            "volumes":
+            {
+              "- name": "pvjmeter",
+              "persistentVolumeClaim":
+              {
+                "claimName": "jmeter"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
