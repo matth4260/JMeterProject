@@ -2,7 +2,7 @@
   "apiVersion": "batch/v1",
   "kind": "Job",
   "metadata": {
-    "name": "jmetercont",
+    "name": "jobjmetercont",
     "namespace": "jmeter"
   },
   "spec": {
@@ -16,10 +16,24 @@
         "containers": [
           {
             "name": "jmetercont",
-            "image": "docker-registry-default.app.leanovia.net/project/jmetercont:latest"
+            "image": "docker-registry.default.svc:5000/jmeter/jmetercont",
+            "volumeMounts": [
+              {
+                "mountPath": "/SharedVolume",
+                "name": "pvjmeter"
+              }
+            ]
           }
         ],
-        "restartPolicy": "OnFailure"
+        "restartPolicy": "Never",
+        "volumes": [
+          {
+            "name": "pvjmeter",
+            "persistentVolumeClaim": {
+              "claimName": "jmeter"
+            }
+          }
+        ]
       }
     }
   }
