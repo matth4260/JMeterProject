@@ -15,6 +15,11 @@ spec:
           volumeMounts:
             - mountPath: /SharedVolume
               name: pvjmeter
+          readinessProbe:
+            tcpSocket:
+              port: 1099
+            initialDelaySeconds: 5
+            periodSeconds: 5
       restartPolicy: Never
       volumes:
         - name: pvjmeter

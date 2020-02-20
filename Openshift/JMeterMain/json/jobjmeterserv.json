@@ -2,8 +2,7 @@
   "apiVersion": "batch/v1",
   "kind": "Job",
   "metadata": {
-    "name": "jobjmeterserv",
-    "namespace": "jmeter"
+    "name": "jobjmeterserv"
   },
   "spec": {
     "parallelism": 2,
@@ -22,7 +21,14 @@
                 "mountPath": "/SharedVolume",
                 "name": "pvjmeter"
               }
-            ]
+            ],
+            "readinessProbe": {
+              "tcpSocket": {
+                "port": 1099
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 5
+            }
           }
         ],
         "restartPolicy": "Never",
