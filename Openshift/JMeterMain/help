@@ -1,0 +1,2 @@
+NEED TOKEN
+curl -k -X POST -d @json/jobjmetermain.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: applicationjson' https://cloud.leanovia.net:8443/apis/batch/v1/namespaces/jmeter/jobs

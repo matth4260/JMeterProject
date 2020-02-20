@@ -4,7 +4,8 @@ tab = json.load(sys.stdin)['items']
 ready = True
 
 for elem in tab:
-    if elem['status']['containerStatuses'][0]['ready'] == False:
+
+    if 'status' in elem.keys() and 'containerStatuses' in elem['status'].keys() and elem['status']['containerStatuses'][0]['ready'] == False:
     		ready = False
     		break
 

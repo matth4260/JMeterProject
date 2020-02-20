@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: jobjmetermain
+spec:
+  parallelism: 2
+  completions: 2
+  template:
+    metadata:
+      name: jmetermain
+    spec:
+      containers:
+        - name: jmetermain
+          image: docker-registry.default.svc:5000/jmeter/jmetermain
+      restartPolicy: Never
