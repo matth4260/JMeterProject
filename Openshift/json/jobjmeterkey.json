@@ -2,15 +2,15 @@
   "apiVersion": "batch/v1",
   "kind": "Job",
   "metadata": {
-    "name": "jobjmeterkey"
+    "name": "jobjmeterkey",
+    "namespace": "jmeter"
   },
   "spec": {
     "parallelism": 1,
     "completions": 1,
     "template": {
       "metadata": {
-        "name": "jmeterkey",
-        "namespace": "jmeter"
+        "name": "jmeterkey"
       },
       "spec": {
         "containers": [

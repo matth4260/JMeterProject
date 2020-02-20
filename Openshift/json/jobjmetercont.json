@@ -1,0 +1,26 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "name": "jmetercont",
+    "namespace": "jmeter"
+  },
+  "spec": {
+    "parallelism": 1,
+    "completions": 1,
+    "template": {
+      "metadata": {
+        "name": "jmetercont"
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "jmetercont",
+            "image": "docker-registry-default.app.leanovia.net/project/jmetercont:latest"
+          }
+        ],
+        "restartPolicy": "OnFailure"
+      }
+    }
+  }
+}

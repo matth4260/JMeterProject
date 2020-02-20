@@ -2,21 +2,21 @@
   "apiVersion": "batch/v1",
   "kind": "Job",
   "metadata": {
-    "name": "jobjmeterkey"
+    "name": "jobjmeterserv",
+    "namespace": "jmeter"
   },
   "spec": {
-    "parallelism": 1,
-    "completions": 1,
+    "parallelism": 2,
+    "completions": 2,
     "template": {
       "metadata": {
-        "name": "jmeterkey",
-        "namespace": "jmeter"
+        "name": "jmeterserv"
       },
       "spec": {
         "containers": [
           {
-            "name": "jmeterkey",
-            "image": "docker-registry.default.svc:5000/jmeter/jmeterkey",
+            "name": "jmeterserv",
+            "image": "docker-registry.default.svc:5000/jmeter/jmeterserv",
             "volumeMounts": [
               {
                 "mountPath": "/SharedVolume",
