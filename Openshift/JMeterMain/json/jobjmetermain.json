@@ -18,11 +18,20 @@
             "image": "docker-registry.default.svc:5000/jmeter/jmetermain",
             "env": [
               {
-                "name": "TOKEN",
+                "name": "USER",
                 "valueFrom": {
                   "secretKeyRef": {
-                    "key": "password",
-                    "name": "jmeter-token"
+                    "name": "oc-user",
+                    "key": "password"
+                  }
+                }
+              },
+              {
+                "name": "PASSWORD",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "oc-password",
+                    "key": "password"
                   }
                 }
               },

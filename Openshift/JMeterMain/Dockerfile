@@ -3,6 +3,9 @@ FROM centos:7
 RUN yum install -y https://centos7.iuscommunity.org/ius-release.rpm
 RUN yum update -y
 RUN yum install -y python36u python36u-libs
+RUN yum install wget -y
+RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+RUN tar xzvf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz 
 
 COPY launchjob.sh /launchjob.sh
 RUN chgrp 0 launchjob.sh && \
@@ -25,6 +28,9 @@ RUN chgrp 0 jmeterServChangeNumberInjector.py && \
     chmod +x jmeterServChangeNumberInjector.py
 
 RUN mkdir json
+RUN mkdir /.kube && \
+    chgrp 0 /.kube && \
+    chmod g=u /.kube
 
 COPY json/jobjmetercont.json /json/jobjmetercont.json
 RUN chgrp 0 json/jobjmetercont.json && \

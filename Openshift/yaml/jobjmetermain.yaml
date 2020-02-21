@@ -13,11 +13,16 @@ spec:
         - name: jmetermain
           image: docker-registry.default.svc:5000/jmeter/jmetermain
           env:
-            - name: TOKEN
+            - name: USER
               valueFrom:
                 secretKeyRef:
+                  name: oc-user
                   key: password
-                  name: jmeter-token
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: oc-password
+                  key: password
             - name: NINJECTOR
               valueFrom:
                 configMapKeyRef:
