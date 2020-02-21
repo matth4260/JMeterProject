@@ -15,7 +15,18 @@
         "containers": [
           {
             "name": "jmetermain",
-            "image": "docker-registry.default.svc:5000/jmeter/jmetermain"
+            "image": "docker-registry.default.svc:5000/jmeter/jmetermain",
+            "env": [
+              {
+                "name": "TOKEN",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "key": "password",
+                    "name": "jmeter-token"
+                  }
+                }
+              }
+            ]
           }
         ],
         "restartPolicy": "Never"

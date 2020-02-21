@@ -1,5 +1,5 @@
 #!/bin/bash
-TOKEN=pdr94idClSil7cgeVX0d8QT82rhIcZ8hF9Ne2_dKmVg
+
 ENDPOINT=cloud.leanovia.net:8443
 NAMESPACE=jmeter
 MAXLOOP=50

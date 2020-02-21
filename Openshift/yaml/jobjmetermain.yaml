@@ -3,8 +3,8 @@ kind: Job
 metadata:
   name: jobjmetermain
 spec:
-  parallelism: 2
-  completions: 2
+  parallelism: 1
+  completions: 1
   template:
     metadata:
       name: jmetermain
@@ -12,4 +12,10 @@ spec:
       containers:
         - name: jmetermain
           image: docker-registry.default.svc:5000/jmeter/jmetermain
+          env:
+            - name: TOKEN
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: jmeter-token
       restartPolicy: Never
