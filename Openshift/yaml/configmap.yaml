@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  number-of-injector: '1'
+kind: ConfigMap
+metadata:
+  name: jmeter-config
+  namespace: jmeter

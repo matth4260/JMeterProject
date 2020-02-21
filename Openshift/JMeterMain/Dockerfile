@@ -19,6 +19,11 @@ RUN chgrp 0 jmeterServEnded.py && \
     chmod g=u jmeterServEnded.py && \
     chmod +x jmeterServEnded.py
 
+COPY jmeterServChangeNumberInjector.py /jmeterServChangeNumberInjector.py
+RUN chgrp 0 jmeterServChangeNumberInjector.py && \
+    chmod g=u jmeterServChangeNumberInjector.py && \
+    chmod +x jmeterServChangeNumberInjector.py
+
 RUN mkdir json
 
 COPY json/jobjmetercont.json /json/jobjmetercont.json

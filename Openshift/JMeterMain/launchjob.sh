@@ -7,7 +7,8 @@ MAXLOOP=50
 echo "Launching key job"
 responsekey=$(curl -k -X POST -d @json/jobjmeterkey.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 sleep 10
-
+response=$(python3 jmeterServChangeNumberInjector.py)
+echo response
 echo "Launching servers job"
 responseserv=$(curl -k -X POST -d @json/jobjmeterserv.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
