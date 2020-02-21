@@ -24,6 +24,5 @@ RUN chgrp -R 0 /apache-jmeter-5.2.1 && \
     chmod -R g=u /apache-jmeter-5.2.1
 
 USER 1001
-EXPOSE 1099
 
 ENTRYPOINT ["/scriptJMeterServerBuild.sh"]
