@@ -25,6 +25,15 @@
                     "name": "jmeter-token"
                   }
                 }
+              },
+              {
+                "name": "NINJECTOR",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "number-of-injector"
+                  }
+                }
               }
             ]
           }
