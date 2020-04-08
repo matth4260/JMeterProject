@@ -9,10 +9,21 @@ TOKEN=$(openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc whoami -t)
 echo "Launching key job"
 responsekey=$(curl -k -X POST -d @json/jobjmeterkey.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 sleep 10
+
+
 response=$(python3 jmeterServChangeNumberInjector.py)
 echo response
 echo "Launching servers job"
 responseserv=$(curl -k -X POST -d @json/jobjmeterserv.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
+
+#Récupérer la liste des ips
+LIST_IP=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
+echo $LIST_IP
+
+echo "Découpage des fichiers CSV"
+response=$(python3 jmeterDecoupeCSV.py $LIST_IP))
+echo "Fin découpage"
+
 
 ready=False
 i=1
