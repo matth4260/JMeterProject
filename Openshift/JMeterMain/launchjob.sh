@@ -30,7 +30,7 @@ echo "liste des ips : "
 export LIST_IP=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
 echo $LIST_IP
 
-echo "Découpage des fichiers CSV"
+echo "Découpage des fichiers CSVs"
 response=$(python3 jmeterDecoupeCSV.py $LIST_IP)
 echo "Fin découpage"
 
