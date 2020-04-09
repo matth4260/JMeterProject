@@ -1,3 +1,4 @@
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -10,18 +11,21 @@ spec:
       name: jmeterserv
     spec:
       containers:
-        - name: jmeterserv
-          image: docker-registry.default.svc:5000/jmeter/jmeterserv
-          volumeMounts:
-            - mountPath: /SharedVolume
-              name: pvjmeter
-          readinessProbe:
-            tcpSocket:
-              port: 1099
-            initialDelaySeconds: 5
-            periodSeconds: 5
+      - name: jmeterserv
+        image: docker-registry.default.svc:5000/jmeter/jmeterserv
+        volumeMounts:
+        - mountPath: "/SharedVolume"
+          name: pvjmeter
+        readinessProbe:
+          exec:
+            command:
+            - "/scriptReturnReadiness.sh"
+            - "$READY"
+          initialDelaySeconds: 5
+          periodSeconds: 5
       restartPolicy: Never
       volumes:
-        - name: pvjmeter
-          persistentVolumeClaim:
-            claimName: jmeter
+      - name: pvjmeter
+        persistentVolumeClaim:
+          claimName: jmeter
+

@@ -13,6 +13,12 @@ RUN chgrp 0 launchjob.sh && \
     chmod g=u launchjob.sh && \
     chmod +x launchjob.sh
 
+
+COPY jmeterServUp.py /jmeterServUp.py
+RUN chgrp 0 jmeterServUp.py && \
+    chmod g=u jmeterServUp.py && \
+    chmod +x jmeterServUp.py
+
 COPY jmeterServReady.py /jmeterServReady.py
 RUN chgrp 0 jmeterServReady.py && \
     chmod g=u jmeterServReady.py && \
@@ -44,6 +50,11 @@ RUN chgrp 0 json/jobjmeterkey.json && \
 COPY json/jobjmeterserv.json /json/jobjmeterserv.json
 RUN chgrp 0 json/jobjmeterserv.json && \
     chmod g=u json/jobjmeterserv.json
+
+COPY jmeterDecoupeCSV.py /jmeterDecoupeCSV.py
+RUN chgrp 0 jmeterDecoupeCSV.py && \
+    chmod g=u jmeterDecoupeCSV.py && \
+    chmod +x jmeterDecoupeCSV.py
 
 USER 1001
 

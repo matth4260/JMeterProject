@@ -1,7 +1,9 @@
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: jobjmetercont
+  namespace: jmeter
 spec:
   parallelism: 1
   completions: 1
@@ -10,13 +12,14 @@ spec:
       name: jmetercont
     spec:
       containers:
-        - name: jmetercont
-          image: docker-registry.default.svc:5000/jmeter/jmetercont
-          volumeMounts:
-            - mountPath: /SharedVolume
-              name: pvjmeter
+      - name: jmetercont
+        image: docker-registry.default.svc:5000/jmeter/jmetercont
+        volumeMounts:
+        - mountPath: "/SharedVolume"
+          name: pvjmeter
       restartPolicy: Never
       volumes:
-        - name: pvjmeter
-          persistentVolumeClaim:
-            claimName: jmeter
+      - name: pvjmeter
+        persistentVolumeClaim:
+          claimName: jmeter
+

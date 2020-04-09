@@ -23,8 +23,11 @@
               }
             ],
             "readinessProbe": {
-              "tcpSocket": {
-                "port": 1099
+              "exec": {
+                "command": [
+                  "/scriptReturnReadiness.sh",
+                  "$READY"
+                ]
               },
               "initialDelaySeconds": 5,
               "periodSeconds": 5

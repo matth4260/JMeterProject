@@ -1,4 +1,4 @@
-{
+{  
   "apiVersion": "batch/v1",
   "kind": "Job",
   "metadata": {
@@ -16,6 +16,12 @@
           {
             "name": "jmetermain",
             "image": "docker-registry.default.svc:5000/jmeter/jmetermain",
+            "volumeMounts": [
+              {
+                "mountPath": "/SharedVolume",
+                "name": "pvjmeter"
+              }
+            ],
             "env": [
               {
                 "name": "USER",
@@ -47,7 +53,15 @@
             ]
           }
         ],
-        "restartPolicy": "Never"
+        "restartPolicy": "Never",
+        "volumes": [
+          {
+            "name": "pvjmeter",
+            "persistentVolumeClaim": {
+              "claimName": "jmeter"
+            }
+          }
+        ]
       }
     }
   }

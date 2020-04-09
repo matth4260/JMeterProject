@@ -7,7 +7,7 @@ def splitcsv(name, list_ip):
 	dest_path = '/SharedVolume/csvModif/'
 	file_path = file_path + name + ".csv"
 	print("Filepath = " + file_path)
-	csv_all_lines = open(file_path, 'r').readlines()
+	csv_all_lines = open(file_path, 'r',encoding='utf-8').readlines()
 
 	# extraction du header
 	header = csv_all_lines[0]
@@ -31,13 +31,12 @@ def splitcsv(name, list_ip):
 		for j in csv_all_lines[i*record_per_file:(i+1)*record_per_file]:
 			write_file += j
 		# creation du fichier
-		open(dest_path + name+'-'+str(list_ip[i])+'.csv', 'w+').writelines(write_file)
-		print("J'écris dans " + name + "-" + str(list_ip[i]) + ".csv")
-		print("J'ecris : " + write_file)
+		open(dest_path + name+'-'+str(list_ip[i])+'.csv', 'w+',encoding='utf-8').writelines(write_file)
 
 
-list_ip = sys.argv[1].split(';')
+list_ip = sys.argv[1].split(',')
 DIR = "/SharedVolume/csv/"
+
 #DIR = "csv/"
 
 for file in os.listdir(DIR):
@@ -47,5 +46,5 @@ for file in os.listdir(DIR):
 
 
 if not os.path.exists('/SharedVolume/csvModif/READY'): 
-	file = open("/SharedVolume/csvModif/READY",'w')
+	file = open("/SharedVolume/csvModif/READY",'w',encoding='utf-8')
 

@@ -16,12 +16,22 @@ echo response
 echo "Launching servers job"
 responseserv=$(curl -k -X POST -d @json/jobjmeterserv.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
+ready=False
+while [ "$ready" == False ]
+do
+	echo "Checking if servers are ready"
+	ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterserv | python3 jmeterServReady.py)
+	sleep 10
+done
+
+
 #Récupérer la liste des ips
-LIST_IP=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
+echo "liste des ips : "
+export LIST_IP=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
 echo $LIST_IP
 
 echo "Découpage des fichiers CSV"
-response=$(python3 jmeterDecoupeCSV.py $LIST_IP))
+response=$(python3 jmeterDecoupeCSV.py $LIST_IP)
 echo "Fin découpage"
 
 

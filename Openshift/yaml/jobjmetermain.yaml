@@ -1,5 +1,5 @@
-apiVersiot
-: batch/v1
+---
+apiVersion: batch/v1
 kind: Job
 metadata:
   name: jobjmetermain
@@ -11,22 +11,30 @@ spec:
       name: jmetermain
     spec:
       containers:
-        - name: jmetermain
-          image: docker-registry.default.svc:5000/jmeter/jmetermain
-          env:
-            - name: USER
-              valueFrom:
-                secretKeyRef:
-                  name: oc-user
-                  key: password
-            - name: PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: oc-password
-                  key: password
-            - name: NINJECTOR
-              valueFrom:
-                configMapKeyRef:
-                  name: jmeter-config
-                  key: number-of-injector
+      - name: jmetermain
+        image: docker-registry.default.svc:5000/jmeter/jmetermain
+        volumeMounts:
+        - mountPath: "/SharedVolume"
+          name: pvjmeter
+        env:
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              name: oc-user
+              key: password
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: oc-password
+              key: password
+        - name: NINJECTOR
+          valueFrom:
+            configMapKeyRef:
+              name: jmeter-config
+              key: number-of-injector
       restartPolicy: Never
+      volumes:
+      - name: pvjmeter
+        persistentVolumeClaim:
+          claimName: jmeter
+
