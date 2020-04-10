@@ -17,7 +17,10 @@ do
         sleep 10
 done
 
-
+FILE=/SharedVolume/rmi_keystore.jks
+if test -f "$FILE"; then
+    echo "$FILE exist"
+fi
 
 response=$(python3 jmeterServChangeNumberInjector.py)
 echo response
