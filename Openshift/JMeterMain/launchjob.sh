@@ -23,7 +23,6 @@ FILE=/SharedVolume/rmi_keystore.jks
 if test -f "$FILE"; then
   echo "rmi_keystore generated"
   response=$(python3 jmeterServChangeNumberInjector.py)
-  echo response
   echo "Launching servers job"
   responseserv=$(curl -k -X POST -d @json/jobjmeterserv.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
@@ -34,6 +33,7 @@ if test -f "$FILE"; then
     echo "Checking if servers are ready"
     ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterserv | python3 jmeterServReady.py)
     sleep 10
+    i=$(($i+1))
   done
 
   if [ "$ready" == "True" ]; then
