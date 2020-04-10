@@ -8,7 +8,15 @@ openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login -u $USER -p $
 TOKEN=$(openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc whoami -t)
 echo "Launching key job"
 responsekey=$(curl -k -X POST -d @json/jobjmeterkey.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
-sleep 10
+
+ready=False
+while [ "$ready" == False ]
+do
+        echo "Checking if key container is done"
+        ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterkey | python3 jmeterServEnded.py)
+        sleep 10
+done
+
 
 
 response=$(python3 jmeterServChangeNumberInjector.py)
