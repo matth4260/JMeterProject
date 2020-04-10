@@ -39,10 +39,24 @@ ready=False
 i=1
 while [ "$ready" == "False" ] && [ $i -lt  $MAXLOOP ]
 do
-  echo "Cheking if servers are ready"
-  ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterserv | python3 jmeterServReady.py)
-  sleep 5
-  i=$(($i+1))
+	echo "Cheking if servers are waiting for controler"
+	
+	ipsAvecEspace=${LIST_IP//,/ }
+
+	ready=True
+
+	for ip in $ipsAvecEspace
+	do
+        	curl $ip":1099"
+        	reponse=$?
+        	if [ $reponse != 0 ];
+        	then
+                	ready=False
+        	fi
+	done
+
+	sleep 5
+	i=$(($i+1))
 done
 
 if [ "$ready" == "True" ]; then
