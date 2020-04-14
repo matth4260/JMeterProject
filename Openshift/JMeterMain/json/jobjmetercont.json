@@ -22,6 +22,17 @@
                 "mountPath": "/SharedVolume",
                 "name": "pvjmeter"
               }
+            ],
+            "env": [
+              {
+                "name": "JMX_NAME",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "jmx-name"
+                  }
+                }
+              }
             ]
           }
         ],

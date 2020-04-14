@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
-  number-of-injector: '1'
+  jmx-name: JMeterTest
+  number-of-injector: '5'
 kind: ConfigMap
 metadata:
   name: jmeter-config
