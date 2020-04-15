@@ -49,6 +49,24 @@
                     "key": "number-of-injector"
                   }
                 }
+              },
+              {
+                "name": "WAITING_TIME_MULTIPLIER",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "waiting-time-multiplier"
+                  }
+                }
+              },
+              {
+                "name": "TEST_MAX_DURATION",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "test-max-duration"
+                  }
+                }
               }
             ]
           }

@@ -2,7 +2,8 @@
 
 ENDPOINT=cloud.leanovia.net:8443
 NAMESPACE=jmeter
-MAXLOOP=50
+MAXLOOP=${WAITING_TIME_MULTIPLIER}
+MAXWAITINGTIME=${TEST_MAX_DURATION}
 
 openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login -u $USER -p $PASSWORD -n jmeter -s https://cloud.leanovia.net:8443 --insecure-skip-tls-verify
 TOKEN=$(openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc whoami -t)
@@ -79,10 +80,10 @@ if test -f "$FILE"; then
         responsecont=$(curl -k -X POST -d @json/jobjmetercont.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
         finished="False"
         i=0
-        while [ $finished == "False" ] && [ $i -lt  $MAXLOOP ]
+        while [ $finished == "False" ] && [ $i -lt  $MAXWAITINGTIME ]
         do
           echo "checking if servers are finished"
-          sleep 20
+          sleep 60
           finished=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetercont | python3 jmeterServEnded.py )
           i=$(($i+1))
         done
