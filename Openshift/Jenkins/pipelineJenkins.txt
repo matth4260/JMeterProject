@@ -1,0 +1,11 @@
+def appName="jpetstore"
+def project="jmeter"
+node {
+    stage("Test de charge") {
+        withCredentials([string(credentialsId: "jenkins-token", variable: 'TOKEN')]) {
+            sh '''
+                curl -k -X POST -d @/var/lib/jenkins/jobs/pipeline-dev/workspace/jobmain.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://cloud.leanovia.net:8443/apis/batch/v1/namespaces/jmeter/jobs
+            '''
+        }
+    }
+}
