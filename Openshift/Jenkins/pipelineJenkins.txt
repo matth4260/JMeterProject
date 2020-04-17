@@ -22,9 +22,11 @@ node {
                 mkdir Resultat
                 oc cp $podmain:/SharedVolume/results.jtl /var/lib/jenkins/jobs/pipeline-dev/workspace/resultat
                 oc rsync $podmain:/SharedVolume/Results /var/lib/jenkins/jobs/pipeline-dev/workspace/resultat/Resultat 
+                tar -czvf resultats.tar.gz Resultat
                 '''
              
-                archiveArtifacts artifacts: 'resultat/results.jtl , resultat/Resultat/*.*'
+                archiveArtifacts artifacts: 'resultat/results.jtl'
+                archiveArtifacts artifacts: 'resultat/resultats.tar.gz'
                 
             sh '''    
                 export podmain=$(curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetermain | grep -Eo '"name": "jobjmetermain-(.){5}",' | grep -Eo 'jobjmetermain-(.){5}')
