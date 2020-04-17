@@ -89,6 +89,18 @@ if test -f "$FILE"; then
         done
         if [ "$finished" == "True" ]; then
           echo "Test finished"
+	  echo "Waiting for results' transfer"
+	  
+	  FILE=/Results/resultsTransfered
+	  READY="False"
+	  while [ $READY == "False" ] && [ $i -lt $MAXLOOP ]
+	  do
+	    sleep 10
+	    if test -f "$FILE"; then
+	      READY="True"
+	    fi
+	  done
+
         else
           echo "Test took too long to finish, now stopping it"
         fi

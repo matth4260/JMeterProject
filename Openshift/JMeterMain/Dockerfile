@@ -56,6 +56,10 @@ RUN chgrp 0 jmeterDecoupeCSV.py && \
     chmod g=u jmeterDecoupeCSV.py && \
     chmod +x jmeterDecoupeCSV.py
 
+RUN mkdir /Results && \
+    chgrp 0 /Results && \
+    chmod g=u /Results
+
 USER 1001
 
 ENTRYPOINT ["/launchjob.sh"]

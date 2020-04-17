@@ -4,8 +4,35 @@ node {
     stage("Test de charge") {
         withCredentials([string(credentialsId: "jenkins-token", variable: 'TOKEN')]) {
             sh '''
+                
                 curl -k -X POST -d @/var/lib/jenkins/jobs/pipeline-dev/workspace/jobmain.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://cloud.leanovia.net:8443/apis/batch/v1/namespaces/jmeter/jobs
-            '''
+                
+                while [[ $((curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetercont) | grep -o -E "phase.: .([a-zA-Z]+)") != 'phase": "Succeeded' ]]
+                do
+                    sleep 60
+                done
+                
+                export podmain=$(curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetermain | grep -Eo '"name": "jobjmetermain-(.){5}",' | grep -Eo 'jobjmetermain-(.){5}')
+                
+                cd /var/lib/jenkins/jobs/pipeline-dev/workspace/
+                touch resultsTransfered
+                rm -rf resultat
+                mkdir resultat
+                cd resultat
+                mkdir Resultat
+                oc cp $podmain:/SharedVolume/results.jtl /var/lib/jenkins/jobs/pipeline-dev/workspace/resultat
+                oc rsync $podmain:/SharedVolume/Results /var/lib/jenkins/jobs/pipeline-dev/workspace/resultat/Resultat 
+                '''
+             
+                archiveArtifacts artifacts: 'resultat/results.jtl , resultat/Resultat/*.*'
+                
+            sh '''    
+                export podmain=$(curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetermain | grep -Eo '"name": "jobjmetermain-(.){5}",' | grep -Eo 'jobjmetermain-(.){5}')
+                cd /var/lib/jenkins/jobs/pipeline-dev/workspace/
+                touch resultsTransfered
+                chmod 777 resultsTransfered
+                oc cp /var/lib/jenkins/jobs/pipeline-dev/workspace/resultsTransfered $podmain:/Results/
+               '''
         }
     }
 }
