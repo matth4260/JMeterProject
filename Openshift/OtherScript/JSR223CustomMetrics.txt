@@ -1,0 +1,79 @@
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
+import ava.util.*;
+
+String escapeValue(String val) {
+
+    val = val.replaceAll(",", "\\\\,")
+        .replaceAll(" ", "\\\\ ")
+        .replaceAll("=", "\\\\=")
+        .trim();
+
+    return val;
+
+}
+
+//prepare string for request
+result = new StringBuilder();
+
+status = "Failure";
+if(sampleResult.isSuccessful()){
+	status = "Success";
+}
+
+String type = "REQUEST";
+if (sampleResult.getResponseMessage().contains("transaction")){
+	type = "TRANSACTION";
+}
+
+String transactionName = "Null";
+//log.info("HEADERS "+sampleResult.getRequestHeaders().split(";"));
+ArrayList headerList = new ArrayList(Arrays.asList(sampleResult.getRequestHeaders().split(";")));
+for (int i=0; i<headerList.size(); i++){
+	if (headerList.get(i).contains("TSN")){
+		transactionName = headerList.get(i).substring(4);
+		//log.info("TRANSACTION "+ transactionName);
+	}
+}
+
+responseCode = sampleResult.getResponseCode() == "" ? "-1" : sampleResult.getResponseCode();
+//log.info("RESPONDE CODE "+ responseCode);
+
+result.append("samples")
+.append(",label=")
+.append(sampleResult.getSampleLabel())
+.append(",status=")
+.append(status)
+.append(",type=")
+.append(type)
+.append(",responsecode=")
+.append(responseCode)
+.append(",transactioname=")
+.append(transactionName)
+.append(" ")
+.append("count=")
+.append(sampleResult.getSampleCount())
+.append(",threads=")
+.append(sampleResult.getAllThreads())
+.append(",duration=")
+.append(sampleResult.getTime())
+.append( " ")
+.append(sampleResult.getTimeStamp())
+.append("000000");
+
+//Post the result to influxDB 
+void PostMeasurement(String metric){
+httpclient = new DefaultHttpClient(new BasicHttpParams());
+httpPost = new HttpPost(); 
+httpPost.setURI(new URI("http://influxdb:8086/write?db=test"));
+httpPost.setEntity(new StringEntity(metric));
+HttpResponse response = httpclient.execute(httpPost);
+EntityUtils.consumeQuietly(response.getEntity());
+}
+
+//To call the function which posts the data
+PostMeasurement(result.toString());
