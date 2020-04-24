@@ -64,4 +64,3 @@ USER 1001
 
 ENTRYPOINT ["/launchjob.sh"]
 #ENTRYPOINT ["/bin/bash"]
-

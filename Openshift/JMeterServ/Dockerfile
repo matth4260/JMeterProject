@@ -31,6 +31,11 @@ RUN chgrp 0 /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar &
     chmod g=u /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar && \
     chmod +x /apache-jmeter-5.2.1/lib/ext/JMeter-InfluxDB-Writer-plugin-1.2.jar
 
+COPY groovy-3.0.3.jar /apache-jmeter-5.2.1/lib/groovy-3.0.3.jar
+RUN chgrp 0 /apache-jmeter-5.2.1/lib/groovy-3.0.3.jar && \
+    chmod g=u /apache-jmeter-5.2.1/lib/groovy-3.0.3.jar && \
+    chmod +x /apache-jmeter-5.2.1/lib/groovy-3.0.3.jar
+
 RUN mkdir /myFiles
 RUN chgrp 0 /myFiles && \
     chmod g=u /myFiles
