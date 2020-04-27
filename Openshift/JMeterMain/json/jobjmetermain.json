@@ -67,15 +67,6 @@
                     "key": "test-max-duration"
                   }
                 }
-              },
-              {
-                "name": "WITH_JENKINS",
-                "valueFrom": {
-                  "configMapKeyRef": {
-                    "name": "jmeter-config",
-                    "key": "with-jenkins"
-                  }
-                }
               }
             ]
           }
