@@ -3,11 +3,11 @@ kind: Service
 metadata:
   creationTimestamp: '2020-02-21T16:04:14Z'
   labels:
-    app: jmeter-serv
-  name: jmeter-serv
+    app: jmeter-inj
+  name: jmeter-inj
   namespace: jmeter
   resourceVersion: '80548836'
-  selfLink: /api/v1/namespaces/jmeter/services/jmeter-serv
+  selfLink: /api/v1/namespaces/jmeter/services/jmeter-inj
   uid: ce1b5734-54c3-11ea-af3c-000c2958deed
 spec:
   clusterIP: None
@@ -17,7 +17,7 @@ spec:
       protocol: TCP
       targetPort: 1099
   selector:
-    job-name: jobjmeterserv
+    job-name: jobjmeterinj
   sessionAffinity: None
   type: ClusterIP
 status:
