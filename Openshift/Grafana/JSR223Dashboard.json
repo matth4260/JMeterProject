@@ -15,62 +15,25 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 7,
-  "iteration": 1587712756114,
+  "id": 9,
+  "iteration": 1588160746163,
   "links": [],
   "panels": [
     {
-      "content": "",
+      "content": "<center><h1>General</h1></center>\n\n\n\n",
       "datasource": null,
       "gridPos": {
-        "h": 1,
+        "h": 2,
         "w": 24,
         "x": 0,
         "y": 0
       },
       "id": 2,
-      "mode": "markdown",
+      "mode": "html",
       "options": {},
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "General",
+      "title": "",
       "type": "text"
     },
     {
@@ -78,14 +41,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 6,
+        "w": 7,
         "x": 0,
-        "y": 1
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 4,
@@ -114,21 +77,22 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "Concurrent users",
           "groupBy": [
             {
               "params": [
-                "10s"
+                "$__interval"
               ],
               "type": "time"
             },
             {
               "params": [
-                "0"
+                "linear"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "backendlistener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -137,13 +101,13 @@
             [
               {
                 "params": [
-                  "threads"
+                  "maxAT"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "mean"
               }
             ]
           ],
@@ -154,7 +118,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Number of concurrent users (by injector)",
+      "title": "Concurrent users",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -197,14 +161,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 1
+        "h": 6,
+        "w": 7,
+        "x": 7,
+        "y": 2
       },
       "hiddenSeries": false,
       "id": 6,
@@ -248,7 +212,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -274,7 +238,583 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Nombre requêtes per 10 secondes",
+      "title": "Number of request per 10 secondes",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [
+        {
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "$Datasource",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 10,
+        "x": 14,
+        "y": 2
+      },
+      "id": 18,
+      "options": {},
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [
+            "0",
+            "0"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_loadscriptname",
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "status",
+              "operator": "=",
+              "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "responsecode",
+              "operator": "!=",
+              "value": "-1"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Error per Scenario",
+      "transform": "timeseries_aggregations",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "columns": [
+        {
+          "text": "Avg",
+          "value": "avg"
+        }
+      ],
+      "datasource": "$Datasource",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 0,
+        "y": 8
+      },
+      "id": 14,
+      "options": {},
+      "pageSize": 5,
+      "showHeader": true,
+      "sort": {
+        "col": 1,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Transaction name",
+          "align": "left",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Metric",
+          "type": "string"
+        },
+        {
+          "alias": "Response time",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Avg",
+          "thresholds": [
+            "60",
+            "100"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_loadscriptname - $tag_label",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "duration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type",
+              "operator": "=",
+              "value": "TRANSACTION"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Transactions with highest response time (ms)",
+      "transform": "timeseries_aggregations",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "columns": [
+        {
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "$Datasource",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 13,
+        "y": 9
+      },
+      "id": 16,
+      "options": {},
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [
+            "0",
+            "0"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_responsecode",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "responsecode"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "none"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"count\") FROM \"samples\" WHERE (\"type\" = 'REQUEST') AND $timeFilter GROUP BY time($__interval), \"responsecode\" fill(none)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "status",
+              "operator": "=",
+              "value": "Failure"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Error's most frequent response code",
+      "transform": "timeseries_aggregations",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": "$Datasource",
+      "gridPos": {
+        "h": 5,
+        "w": 5,
+        "x": 19,
+        "y": 9
+      },
+      "id": 12,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.6.1",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "status",
+              "operator": "=",
+              "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total errors",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "aliasColors": {
+        "Error": "dark-red"
+      },
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "hiddenSeries": false,
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "Error",
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "0"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "status",
+              "operator": "=",
+              "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "TRANSACTION"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Errors",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -317,14 +857,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 7,
+        "w": 15,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "hiddenSeries": false,
       "id": 8,
@@ -353,7 +893,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_label",
+          "alias": "$tag_loadscriptname - $tag_label",
           "groupBy": [
             {
               "params": [
@@ -369,12 +909,18 @@
             },
             {
               "params": [
-                "none"
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -445,130 +991,21 @@
       }
     },
     {
-      "aliasColors": {},
-      "bars": true,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "InfluxDB-test_Database",
-      "fill": 1,
-      "fillGradient": 0,
+      "content": "<center><h1>$Scenario</h1></center>\n\n\n\n",
+      "datasource": null,
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 9
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 23
       },
-      "hiddenSeries": false,
-      "id": 10,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": false,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "alias": "Error",
-          "groupBy": [
-            {
-              "params": [
-                "1s"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "0"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "samples",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "count"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "status",
-              "operator": "=",
-              "value": "Failure"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
+      "id": 19,
+      "mode": "html",
+      "options": {},
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
-      "title": "Errors",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "title": "",
+      "type": "text"
     },
     {
       "columns": [
@@ -577,15 +1014,15 @@
           "value": "avg"
         }
       ],
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fontSize": "100%",
       "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 12,
         "x": 0,
-        "y": 17
+        "y": 25
       },
-      "id": 12,
+      "id": 21,
       "options": {},
       "pageSize": 5,
       "showHeader": true,
@@ -640,12 +1077,18 @@
             },
             {
               "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -669,26 +1112,152 @@
               "key": "type",
               "operator": "=",
               "value": "TRANSACTION"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Transactions with highest response time (ms)",
+      "title": "Transactions with highest response time in $Scenario (ms)",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
     },
     {
-      "datasource": "InfluxDB-test_Database",
+      "columns": [
+        {
+          "text": "Total",
+          "value": "total"
+        }
+      ],
+      "datasource": "$Datasource",
+      "fontSize": "100%",
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 6,
+        "w": 11,
         "x": 12,
-        "y": 17
+        "y": 25
       },
-      "id": 14,
+      "id": 22,
+      "options": {},
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "align": "auto",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [
+            "0",
+            "0"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_transactionname",
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "transactionname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "status",
+              "operator": "=",
+              "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Error per Transaction in $Scenario",
+      "transform": "timeseries_aggregations",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "datasource": "$Datasource",
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 31
+      },
+      "id": 23,
       "options": {
         "fieldOptions": {
           "calcs": [
@@ -736,7 +1305,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -763,82 +1332,244 @@
             },
             {
               "condition": "AND",
-              "key": "responsecode",
+              "key": "type",
               "operator": "=",
-              "value": "-1"
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total errors",
+      "title": "Total errors in $Scenario",
       "transparent": true,
       "type": "gauge"
     },
     {
-      "columns": [
-        {
-          "text": "Total",
-          "value": "total"
-        }
-      ],
-      "datasource": "InfluxDB-test_Database",
-      "fontSize": "100%",
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$Datasource",
+      "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
-        "h": 8,
+        "h": 6,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 32
       },
-      "id": 16,
-      "options": {},
-      "pageSize": null,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
+      "hiddenSeries": false,
+      "id": 20,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "styles": [
-        {
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "date"
-        },
-        {
-          "alias": "",
-          "align": "right",
-          "colorMode": "row",
-          "colors": [
-            "rgba(50, 172, 45, 0.97)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(245, 54, 54, 0.9)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [
-            "0",
-            "0"
-          ],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
       "targets": [
         {
-          "alias": "$tag_responsecode",
+          "alias": "$tag_label",
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "10s"
               ],
               "type": "time"
             },
             {
               "params": [
-                "responsecode"
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "duration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type",
+              "operator": "=",
+              "value": "TRANSACTION"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Response time of all transactions in $Scenario (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "content": "<center><h1>$Scenario | $Transaction</h1></center>\n\n\n\n",
+      "datasource": null,
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 24,
+      "mode": "html",
+      "options": {},
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "text"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 0,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_label",
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
               ],
               "type": "tag"
             },
@@ -849,24 +1580,172 @@
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT sum(\"count\") FROM \"samples\" WHERE (\"type\" = 'REQUEST') AND $timeFilter GROUP BY time($__interval), \"responsecode\" fill(none)",
-          "rawQuery": false,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
             [
               {
                 "params": [
-                  "count"
+                  "duration"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "count"
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type",
+              "operator": "=",
+              "value": "TRANSACTION"
+            },
+            {
+              "condition": "AND",
+              "key": "label",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Response time of $Transaction (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$Datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 9,
+        "x": 9,
+        "y": 40
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "$tag_label",
+          "groupBy": [
+            {
+              "params": [
+                "10s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "linear"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "duration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
               }
             ]
           ],
@@ -878,16 +1757,293 @@
             },
             {
               "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Response time of all requests in $Scenario | $Transaction (ms)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "datasource": "$Datasource",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 40
+      },
+      "id": 27,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "defaults": {
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.6.1",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "1s"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
               "key": "status",
               "operator": "=",
               "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Error's most frequent response code",
+      "title": "Total errors in $Transaction",
+      "transparent": true,
+      "type": "gauge"
+    },
+    {
+      "columns": [
+        {
+          "text": "Avg",
+          "value": "avg"
+        }
+      ],
+      "datasource": "$Datasource",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 46
+      },
+      "id": 29,
+      "options": {},
+      "pageSize": 5,
+      "showHeader": true,
+      "sort": {
+        "col": 1,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Transaction name",
+          "align": "left",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Metric",
+          "type": "string"
+        },
+        {
+          "alias": "Response time",
+          "align": "auto",
+          "colorMode": "row",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Avg",
+          "thresholds": [
+            "60",
+            "100"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "$tag_label",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "jsr223listener",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "duration"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request with highest response time in $Transaction (ms)",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
@@ -899,15 +2055,15 @@
           "value": "total"
         }
       ],
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fontSize": "100%",
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 25
+        "w": 10,
+        "x": 14,
+        "y": 46
       },
-      "id": 18,
+      "id": 28,
       "options": {},
       "pageSize": null,
       "showHeader": true,
@@ -944,7 +2100,7 @@
       ],
       "targets": [
         {
-          "alias": "$tag_transactioname",
+          "alias": "$tag_label",
           "groupBy": [
             {
               "params": [
@@ -954,7 +2110,7 @@
             },
             {
               "params": [
-                "transactioname"
+                "label"
               ],
               "type": "tag"
             },
@@ -965,7 +2121,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -992,72 +2148,47 @@
             },
             {
               "condition": "AND",
-              "key": "responsecode",
-              "operator": "!=",
-              "value": "-1"
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Error per Transaction",
+      "title": "Error per Transaction in $Transaction",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
     },
     {
-      "content": "\n\n\n",
+      "content": "<center><h1>$Scenario | $Transaction | $Request</h1></center>\n\n\n\n",
       "datasource": null,
       "gridPos": {
-        "h": 1,
+        "h": 2,
         "w": 24,
         "x": 0,
-        "y": 33
+        "y": 54
       },
-      "id": 20,
-      "mode": "markdown",
+      "id": 30,
+      "mode": "html",
       "options": {},
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Transaction : $Transaction",
+      "title": "",
       "type": "text"
     },
     {
@@ -1065,17 +2196,17 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 7,
+        "w": 14,
         "x": 0,
-        "y": 34
+        "y": 56
       },
       "hiddenSeries": false,
-      "id": 22,
+      "id": 31,
       "legend": {
         "avg": false,
         "current": false,
@@ -1101,13 +2232,25 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "$Transaction",
+          "alias": "$tag_label",
           "groupBy": [
             {
               "params": [
                 "10s"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "label"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "loadscriptname"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -1116,7 +2259,7 @@
               "type": "fill"
             }
           ],
-          "measurement": "samples",
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
@@ -1137,9 +2280,27 @@
           ],
           "tags": [
             {
-              "key": "label",
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
               "operator": "=~",
               "value": "/^$Transaction$/"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "label",
+              "operator": "=~",
+              "value": "/^$Request$/"
             }
           ]
         }
@@ -1148,7 +2309,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "$Transaction : Response time (ms)",
+      "title": "Response time of $Transaction (ms)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1187,14 +2348,14 @@
       }
     },
     {
-      "datasource": "InfluxDB-test_Database",
+      "datasource": "$Datasource",
       "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 34
+        "h": 6,
+        "w": 6,
+        "x": 14,
+        "y": 56
       },
-      "id": 24,
+      "id": 32,
       "options": {
         "fieldOptions": {
           "calcs": [
@@ -1202,6 +2363,8 @@
           ],
           "defaults": {
             "mappings": [],
+            "max": 100,
+            "min": 0,
             "thresholds": {
               "mode": "absolute",
               "steps": [
@@ -1230,76 +2393,6 @@
             {
               "params": [
                 "1s"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "0"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "samples",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"count\") FROM \"samples\" WHERE (\"label\" =~ /^$Transaction$/) AND $timeFilter GROUP BY time(1s) fill(null)",
-          "rawQuery": false,
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "count"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "transactioname",
-              "operator": "=~",
-              "value": "/^$Transaction$/"
-            },
-            {
-              "condition": "AND",
-              "key": "status",
-              "operator": "=",
-              "value": "Failure"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "$Transaction : Total errors",
-      "transparent": true,
-      "type": "gauge"
-    },
-    {
-      "content": "",
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 42
-      },
-      "id": 26,
-      "mode": "markdown",
-      "options": {},
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
               ],
               "type": "time"
             },
@@ -1310,216 +2403,9 @@
               "type": "fill"
             }
           ],
+          "measurement": "jsr223listener",
           "orderByTime": "ASC",
           "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "value"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": []
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Request : $Request",
-      "type": "text"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "InfluxDB-test_Database",
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 43
-      },
-      "hiddenSeries": false,
-      "id": 28,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "10s"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "0"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "samples",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "duration"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "label",
-              "operator": "=~",
-              "value": "/^$Request$/"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "$Transaction - $Request : Response time (ms)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "InfluxDB-test_Database",
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 43
-      },
-      "id": 29,
-      "options": {
-        "fieldOptions": {
-          "calcs": [
-            "sum"
-          ],
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [],
-          "values": false
-        },
-        "orientation": "auto",
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
-      },
-      "pluginVersion": "6.6.1",
-      "targets": [
-        {
-          "groupBy": [
-            {
-              "params": [
-                "1s"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "0"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "samples",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT sum(\"count\") FROM \"samples\" WHERE (\"label\" =~ /^$Transaction$/) AND $timeFilter GROUP BY time(1s) fill(null)",
-          "rawQuery": false,
           "refId": "A",
           "resultFormat": "time_series",
           "select": [
@@ -1538,15 +2424,27 @@
           ],
           "tags": [
             {
-              "key": "transactioname",
-              "operator": "=~",
-              "value": "/^$Transaction$/"
-            },
-            {
-              "condition": "AND",
               "key": "status",
               "operator": "=",
               "value": "Failure"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "REQUEST"
+            },
+            {
+              "condition": "AND",
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            },
+            {
+              "condition": "AND",
+              "key": "transactionname",
+              "operator": "=~",
+              "value": "/^$Transaction$/"
             },
             {
               "condition": "AND",
@@ -1559,7 +2457,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "$Transaction - $Request : Total errors",
+      "title": "Total errors in $Transaction",
       "transparent": true,
       "type": "gauge"
     }
@@ -1571,92 +2469,39 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
-          "text": "Accueil",
-          "value": "Accueil"
+          "selected": true,
+          "text": "InfluxDB-jmeterfarmtest_Database",
+          "value": "InfluxDB-jmeterfarmtest_Database"
         },
-        "datasource": "InfluxDB-test_Database",
-        "definition": "SHOW TAG VALUES FROM \"samples\" WITH KEY = \"label\" WHERE \"type\"='TRANSACTION'",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "Transaction",
-        "options": [
-          {
-            "selected": false,
-            "text": "Accueil",
-            "value": "Accueil"
-          },
-          {
-            "selected": false,
-            "text": "Add_to_cart",
-            "value": "Add_to_cart"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_Register_Now",
-            "value": "Click_on_Register_Now"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_Sign-in",
-            "value": "Click_on_Sign-in"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_a_category",
-            "value": "Click_on_a_category"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_a_product",
-            "value": "Click_on_a_product"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_an_item",
-            "value": "Click_on_an_item"
-          },
-          {
-            "selected": false,
-            "text": "Click_on_sign-in",
-            "value": "Click_on_sign-in"
-          },
-          {
-            "selected": false,
-            "text": "Confirmation",
-            "value": "Confirmation"
-          },
-          {
-            "selected": false,
-            "text": "Procee_to_checkout",
-            "value": "Procee_to_checkout"
-          },
-          {
-            "selected": true,
-            "text": "Send_account_info",
-            "value": "Send_account_info"
-          },
-          {
-            "selected": false,
-            "text": "Validation_paiement_details",
-            "value": "Validation_paiement_details"
-          },
-          {
-            "selected": false,
-            "text": "login",
-            "value": "login"
-          },
-          {
-            "selected": false,
-            "text": "logout",
-            "value": "logout"
-          }
-        ],
-        "query": "SHOW TAG VALUES FROM \"samples\" WITH KEY = \"label\" WHERE \"type\"='TRANSACTION'",
-        "refresh": 0,
+        "name": "Datasource",
+        "options": [],
+        "query": "influxdb",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "Creation_compte",
+          "value": "Creation_compte"
+        },
+        "datasource": "$Datasource",
+        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"loadscriptname\"",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Scenario",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"loadscriptname\"",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -1669,45 +2514,45 @@
       {
         "allValue": null,
         "current": {
-          "text": "/jpetstore/",
-          "value": "/jpetstore/"
+          "selected": true,
+          "text": "Send_account_info",
+          "value": "Send_account_info"
         },
-        "datasource": "InfluxDB-test_Database",
-        "definition": "SHOW TAG VALUES FROM \"samples\" WITH KEY = \"label\" WHERE \"type\"='REQUEST'",
+        "datasource": "$Datasource",
+        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "Transaction",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "text": "/jpetstore/actions/Account.action",
+          "value": "/jpetstore/actions/Account.action"
+        },
+        "datasource": "$Datasource",
+        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Transaction$/",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "Request",
-        "options": [
-          {
-            "selected": false,
-            "text": "/jpetstore/",
-            "value": "/jpetstore/"
-          },
-          {
-            "selected": true,
-            "text": "/jpetstore/actions/Account.action",
-            "value": "/jpetstore/actions/Account.action"
-          },
-          {
-            "selected": false,
-            "text": "/jpetstore/actions/Cart.action",
-            "value": "/jpetstore/actions/Cart.action"
-          },
-          {
-            "selected": false,
-            "text": "/jpetstore/actions/Catalog.action",
-            "value": "/jpetstore/actions/Catalog.action"
-          },
-          {
-            "selected": false,
-            "text": "/jpetstore/actions/Order.action",
-            "value": "/jpetstore/actions/Order.action"
-          }
-        ],
-        "query": "SHOW TAG VALUES FROM \"samples\" WITH KEY = \"label\" WHERE \"type\"='REQUEST'",
-        "refresh": 0,
+        "options": [],
+        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Transaction$/",
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -1720,7 +2565,7 @@
     ]
   },
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "timepicker": {
@@ -1738,7 +2583,7 @@
     ]
   },
   "timezone": "",
-  "title": "JMeter Farm Injector JSR223",
-  "uid": "JDqjuYqWk",
-  "version": 55
+  "title": "JSR223",
+  "uid": "V0VHFneZk",
+  "version": 18
 }
