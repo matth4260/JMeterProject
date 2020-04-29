@@ -47,9 +47,9 @@ COPY json/jobjmeterkey.json /json/jobjmeterkey.json
 RUN chgrp 0 json/jobjmeterkey.json && \
     chmod g=u json/jobjmeterkey.json
 
-COPY json/jobjmeterInj.json /json/jobjmeterInj.json
-RUN chgrp 0 json/jobjmeterInj.json && \
-    chmod g=u json/jobjmeterInj.json
+COPY json/jobjmeterinj.json /json/jobjmeterinj.json
+RUN chgrp 0 json/jobjmeterinj.json && \
+    chmod g=u json/jobjmeterinj.json
 
 COPY jmeterDecoupeCSV.py /jmeterDecoupeCSV.py
 RUN chgrp 0 jmeterDecoupeCSV.py && \

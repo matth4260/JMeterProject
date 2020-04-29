@@ -25,14 +25,14 @@ if test -f "$FILE"; then
   echo "rmi_keystore generated"
   response=$(python3 jmeterInjChangeNumberInjector.py)
   echo "Launching Injectors job"
-  responseInj=$(curl -k -X POST -d @json/jobjmeterInj.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
+  responseInj=$(curl -k -X POST -d @json/jobjmeterinj.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
   ready=False
   i=0
   while [ "$ready" == False ] && [ $i -lt  $MAXLOOP ]
   do
     echo "Checking if Injectors are ready"
-    ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterInj | python3 jmeterInjReady.py)
+    ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterinj | python3 jmeterInjReady.py)
     sleep 10
     i=$(($i+1))
   done
@@ -123,8 +123,8 @@ if test -f "$FILE"; then
     echo "The Injectors didn't start properly"
   fi
   echo "Stopping the Injer job, and the Injectors' containers"
-  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterInj)
-  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterInj)
+  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterinj)
+  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterinj)
 
   
 else
