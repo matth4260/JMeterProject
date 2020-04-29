@@ -31,19 +31,17 @@ if (sampleResult.getResponseMessage().contains("transaction")){
 }
 
 String transactionName = "Null";
-//log.info("HEADERS "+sampleResult.getRequestHeaders().split(";"));
+loadScriptName = "${__threadGroupName}";
 ArrayList headerList = new ArrayList(Arrays.asList(sampleResult.getRequestHeaders().split(";")));
 for (int i=0; i<headerList.size(); i++){
 	if (headerList.get(i).contains("TSN")){
 		transactionName = headerList.get(i).substring(4);
-		//log.info("TRANSACTION "+ transactionName);
 	}
 }
 
 responseCode = sampleResult.getResponseCode() == "" ? "-1" : sampleResult.getResponseCode();
-//log.info("RESPONDE CODE "+ responseCode);
 
-result.append("samples")
+result.append("jmeterfarm")
 .append(",label=")
 .append(sampleResult.getSampleLabel())
 .append(",status=")
@@ -52,15 +50,19 @@ result.append("samples")
 .append(type)
 .append(",responsecode=")
 .append(responseCode)
-.append(",transactioname=")
+.append(",transactionname=")
 .append(transactionName)
+.append(",loadscriptname=")
+.append(loadScriptName)
+.append(",injector=")
+.append("${__machineIP}")
 .append(" ")
 .append("count=")
 .append(sampleResult.getSampleCount())
-.append(",threads=")
-.append(sampleResult.getAllThreads())
 .append(",duration=")
 .append(sampleResult.getTime())
+.append(",scenariothreads=")
+.append(sampleResult.getGroupThreads())
 .append( " ")
 .append(sampleResult.getTimeStamp())
 .append("000000");
@@ -69,7 +71,7 @@ result.append("samples")
 void PostMeasurement(String metric){
 httpclient = new DefaultHttpClient(new BasicHttpParams());
 httpPost = new HttpPost(); 
-httpPost.setURI(new URI("http://influxdb:8086/write?db=test"));
+httpPost.setURI(new URI("http://myinfluxdb:8086/write?db=test"));
 httpPost.setEntity(new StringEntity(metric));
 HttpResponse response = httpclient.execute(httpPost);
 EntityUtils.consumeQuietly(response.getEntity());
