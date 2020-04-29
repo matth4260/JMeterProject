@@ -1,6 +1,6 @@
 #!/bin/sh
 
-list_ips=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
+list_ips=$(echo $(dig jmeter-inj.jmeter 1 +search +short) | sed 's/ /,/g')
 echo "Liste des ips : $list_ips"
 cp /SharedVolume/rmi_keystore.jks /apache-jmeter-5.2.1/bin/rmi_keystore.jks
 cd /apache-jmeter-5.2.1/bin/

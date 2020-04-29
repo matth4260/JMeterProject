@@ -14,25 +14,25 @@ RUN chgrp 0 launchjob.sh && \
     chmod +x launchjob.sh
 
 
-COPY jmeterServUp.py /jmeterServUp.py
-RUN chgrp 0 jmeterServUp.py && \
-    chmod g=u jmeterServUp.py && \
-    chmod +x jmeterServUp.py
+COPY jmeterInjUp.py /jmeterInjUp.py
+RUN chgrp 0 jmeterInjUp.py && \
+    chmod g=u jmeterInjUp.py && \
+    chmod +x jmeterInjUp.py
 
-COPY jmeterServReady.py /jmeterServReady.py
-RUN chgrp 0 jmeterServReady.py && \
-    chmod g=u jmeterServReady.py && \
-    chmod +x jmeterServReady.py
+COPY jmeterInjReady.py /jmeterInjReady.py
+RUN chgrp 0 jmeterInjReady.py && \
+    chmod g=u jmeterInjReady.py && \
+    chmod +x jmeterInjReady.py
 
-COPY jmeterServEnded.py /jmeterServEnded.py
-RUN chgrp 0 jmeterServEnded.py && \
-    chmod g=u jmeterServEnded.py && \
-    chmod +x jmeterServEnded.py
+COPY jmeterInjEnded.py /jmeterInjEnded.py
+RUN chgrp 0 jmeterInjEnded.py && \
+    chmod g=u jmeterInjEnded.py && \
+    chmod +x jmeterInjEnded.py
 
-COPY jmeterServChangeNumberInjector.py /jmeterServChangeNumberInjector.py
-RUN chgrp 0 jmeterServChangeNumberInjector.py && \
-    chmod g=u jmeterServChangeNumberInjector.py && \
-    chmod +x jmeterServChangeNumberInjector.py
+COPY jmeterInjChangeNumberInjector.py /jmeterInjChangeNumberInjector.py
+RUN chgrp 0 jmeterInjChangeNumberInjector.py && \
+    chmod g=u jmeterInjChangeNumberInjector.py && \
+    chmod +x jmeterInjChangeNumberInjector.py
 
 RUN mkdir json
 RUN mkdir /.kube && \
@@ -47,9 +47,9 @@ COPY json/jobjmeterkey.json /json/jobjmeterkey.json
 RUN chgrp 0 json/jobjmeterkey.json && \
     chmod g=u json/jobjmeterkey.json
 
-COPY json/jobjmeterserv.json /json/jobjmeterserv.json
-RUN chgrp 0 json/jobjmeterserv.json && \
-    chmod g=u json/jobjmeterserv.json
+COPY json/jobjmeterInj.json /json/jobjmeterInj.json
+RUN chgrp 0 json/jobjmeterInj.json && \
+    chmod g=u json/jobjmeterInj.json
 
 COPY jmeterDecoupeCSV.py /jmeterDecoupeCSV.py
 RUN chgrp 0 jmeterDecoupeCSV.py && \

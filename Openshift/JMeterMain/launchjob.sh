@@ -15,7 +15,7 @@ i=0
 while [ "$ready" == False ] && [ $i -lt  $MAXLOOP ]
 do
   echo "Checking if key container is done"
-  ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterkey | python3 jmeterServEnded.py)
+  ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterkey | python3 jmeterInjEnded.py)
   sleep 10
 	i=$(($i+1))
 done
@@ -23,26 +23,26 @@ done
 FILE=/SharedVolume/rmi_keystore.jks
 if test -f "$FILE"; then
   echo "rmi_keystore generated"
-  response=$(python3 jmeterServChangeNumberInjector.py)
-  echo "Launching servers job"
-  responseserv=$(curl -k -X POST -d @json/jobjmeterserv.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
+  response=$(python3 jmeterInjChangeNumberInjector.py)
+  echo "Launching Injectors job"
+  responseInj=$(curl -k -X POST -d @json/jobjmeterInj.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
   ready=False
   i=0
   while [ "$ready" == False ] && [ $i -lt  $MAXLOOP ]
   do
-    echo "Checking if servers are ready"
-    ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterserv | python3 jmeterServReady.py)
+    echo "Checking if Injectors are ready"
+    ready=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterInj | python3 jmeterInjReady.py)
     sleep 10
     i=$(($i+1))
   done
 
   if [ "$ready" == "True" ]; then
-    echo "The servers are ready"
+    echo "The Injectors are ready"
 
     #Récupérer la liste des ips
     echo "liste des ips : "
-    export LIST_IP=$(echo $(dig jmeter-serv.jmeter 1 +search +short) | sed 's/ /,/g')
+    export LIST_IP=$(echo $(dig jmeter-Inj.jmeter 1 +search +short) | sed 's/ /,/g')
     echo $LIST_IP
 
     echo "Découpage des fichiers CSVs"
@@ -55,7 +55,7 @@ if test -f "$FILE"; then
       i=1
       while [ "$ready" == "False" ] && [ $i -lt  $MAXLOOP ]
       do
-        echo "Cheking if servers are waiting for controler"
+        echo "Cheking if Injectors are waiting for controler"
         
         ipsAvecEspace=${LIST_IP//,/ }
 
@@ -76,15 +76,15 @@ if test -f "$FILE"; then
       done
 
       if [ "$ready" == "True" ]; then
-        echo "JMeter servers started properly, launching controler job"
+        echo "JMeter Injectors started properly, launching controler job"
         responsecont=$(curl -k -X POST -d @json/jobjmetercont.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
         finished="False"
         i=0
         while [ $finished == "False" ] && [ $i -lt  $MAXWAITINGTIME ]
         do
-          echo "checking if servers are finished"
+          echo "checking if Injectors are finished"
           sleep 60
-          finished=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetercont | python3 jmeterServEnded.py )
+          finished=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetercont | python3 jmeterInjEnded.py )
           i=$(($i+1))
         done
         if [ "$finished" == "True" ]; then
@@ -111,7 +111,7 @@ if test -f "$FILE"; then
         responsedeletecont=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmetercont)
         responsedeletecont=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetercont)
       else
-        echo "jmeter servers didn't start properly"
+        echo "jmeter Injectors didn't start properly"
       fi
     
     else
@@ -120,11 +120,11 @@ if test -f "$FILE"; then
 
 
   else
-    echo "The servers didn't start properly"
+    echo "The Injectors didn't start properly"
   fi
-  echo "Stopping the server job, and the servers' containers"
-  responsedeleteserv=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterserv)
-  responsedeleteserv=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterserv)
+  echo "Stopping the Injer job, and the Injectors' containers"
+  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterInj)
+  responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterInj)
 
   
 else

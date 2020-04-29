@@ -10,10 +10,10 @@ RUN wget https://www-us.apache.org/dist//jmeter/binaries/apache-jmeter-5.2.1.tgz
 RUN tar -xvzf apache-jmeter-5.2.1.tgz
 RUN rm -f apache-jmeter-5.2.1.tgz
 
-COPY scriptJMeterServerBuild.sh /scriptJMeterServerBuild.sh
-RUN chgrp 0 /scriptJMeterServerBuild.sh && \
-    chmod g=u /scriptJMeterServerBuild.sh && \
-    chmod +x /scriptJMeterServerBuild.sh
+COPY scriptJMeterInjBuild.sh scriptJMeterInjBuild.sh
+RUN chgrp 0 scriptJMeterInjBuild.sh && \
+    chmod g=u scriptJMeterInjBuild.sh && \
+    chmod +x scriptJMeterInjBuild.sh
 
 COPY scriptReturnReadiness.sh /scriptReturnReadiness.sh
 RUN chgrp 0 scriptReturnReadiness.sh && \
@@ -35,4 +35,4 @@ RUN chgrp -R 0 /apache-jmeter-5.2.1 && \
 
 USER 1001
 
-ENTRYPOINT ["/scriptJMeterServerBuild.sh"]
+ENTRYPOINT ["scriptJMeterInjBuild.sh"]
