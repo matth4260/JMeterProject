@@ -7,7 +7,10 @@ node {
                 
                 curl -k -X POST -d @/var/lib/jenkins/jobs/JMeterFarmTest/workspace/jobmain.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://cloud.leanovia.net:8443/apis/batch/v1/namespaces/jmeter/jobs
                 sleep 60
-                
+                while [[ $((curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetermain) | grep -o -E '"phase": "([a-zA-Z]+)"' ) == '"phase": "Failed"'  ]]
+                do
+                    echo 'Le conteneur main est failed'
+                done
                 while [[ $((curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetermain) | grep -o -E '"phase": "([a-zA-Z]+)"' ) == '"phase": "Running"'  && $((curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://cloud.leanovia.net:8443/api/v1/namespaces/jmeter/pods?labelSelector=job-name=jobjmetercont) | grep -o -E "phase.: .([a-zA-Z]+)") != 'phase": "Succeeded' ]]
                 do
                     sleep 60
