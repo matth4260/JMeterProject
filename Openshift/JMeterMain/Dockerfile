@@ -60,6 +60,11 @@ RUN mkdir /Results && \
     chgrp 0 /Results && \
     chmod g=u /Results
 
+COPY integrateur_jmeter-dynatrace.py /integrateur_jmeter-dynatrace.py
+RUN chgrp 0 integrateur_jmeter-dynatrace.py && \
+    chmod g=u integrateur_jmeter-dynatrace.py && \
+    chmod +x integrateur_jmeter-dynatrace.py
+
 USER 1001
 
 ENTRYPOINT ["/launchjob.sh"]

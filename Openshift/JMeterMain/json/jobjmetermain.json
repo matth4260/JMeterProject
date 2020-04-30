@@ -67,6 +67,24 @@
                     "key": "test-max-duration"
                   }
                 }
+              },
+              {
+                "name": "JMX_NAME",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "jmx-name"
+                  }
+                }
+              },
+              {
+                "name": "JSON_NAME",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "json-name"
+                  }
+                }
               }
             ]
           }

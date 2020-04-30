@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   jmx-name: JMeterTest
+  json-name: IntegrationDynatrace
   number-of-injector: '2'
   waiting-time-multiplier: '1'
   test-max-duration: '30'

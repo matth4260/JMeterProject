@@ -10,6 +10,11 @@ TOKEN=$(openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc whoami -t)
 echo "Launching key job"
 responsekey=$(curl -k -X POST -d @json/jobjmeterkey.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
 
+echo "Integrating jmx with Dynatrace"
+python3 integrateur_jmeter-dynatrace.py /SharedVolume/${JMX_NAME}.jmx /SharedVolume/${JSON_NAME}.json -t /SharedVolume/dynatrace-${JMX_NAME}.jmx
+
+
+
 ready=False
 i=0
 while [ "$ready" == False ] && [ $i -lt  $MAXLOOP ]
