@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvjmfinflux0001
+spec:
+  capacity:
+     storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  nfs:
+    path: /data/pv-jmf-influx-0001
+    server: 192.168.0.72
