@@ -3,15 +3,15 @@ import os
 import csv
 
 
-def removeLinesInFile(csvName, filesPath):
+def removeLinesInFile(csvName, csvPath,txtPath):
 	usedLinesFileName = csvName + "UsedLines.txt"
 
-	with open(filesPath + csvName + 'WithoutUsedLines.csv', 'w') as fout:
+	with open(txtPath + csvName + 'WithoutUsedLines.csv', 'w') as fout:
 		writer = csv.writer(fout)
 
-		usedLines = open(filesPath + usedLinesFileName, 'r',encoding='utf-8').readlines()
+		usedLines = open(txtPath + usedLinesFileName, 'r',encoding='utf-8').readlines()
 		print(usedLines[0])
-		csvLines = open(filesPath + csvName + '.csv', 'r',encoding='utf-8').readlines()
+		csvLines = open(csvPath + csvName + '.csv', 'r',encoding='utf-8').readlines()
 
 		for csvLine in csvLines[1:]:
 			if int(csvLine[0:csvLine.find(',')]) <= int(usedLines[0]):
@@ -20,35 +20,32 @@ def removeLinesInFile(csvName, filesPath):
 				break
 
 		
-		open(filesPath + csvName + 'WithoutUsedLines.csv', 'w+',encoding='utf-8').writelines(csvLines)
+		open(txtPath + csvName + 'WithoutUsedLines.csv', 'w+',encoding='utf-8').writelines(csvLines)
 
-	os.remove(filesPath + csvName + ".csv")
-	os.remove(filesPath + usedLinesFileName)
-	os.rename(filesPath + csvName + 'WithoutUsedLines.csv', filesPath + csvName + '.csv')
+	os.remove(csvPath + csvName + ".csv")
+	os.remove(txtPath + usedLinesFileName)
+	os.rename(txtPath + csvName + 'WithoutUsedLines.csv', csvPath + csvName + '.csv')
 
 
 
-def mergeCSVFiles(csvName):
-
-	csvPath = "/Users/leanovia/Downloads/csv/"
-	csvToMergePath = "/Users/leanovia/Downloads/csvModif/"
+def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 
 
 	csvHeader = open(csvPath + csvName + ".csv", 'r',encoding='utf-8').readline()
 	open(csvPath + csvName + "WithoutUsedLines.csv", 'w',encoding='utf-8').writelines(csvHeader)
 
 	for file in os.listdir(csvToMergePath):
-		print("watching " + file)
 		if file.startswith(csvName):
-			print("in if")
 			linesToAdd = open(csvToMergePath + file, 'r',encoding='utf-8').readlines()
 			linesToAdd.pop(0) #removing header
 			open(csvPath + csvName + "WithoutUsedLines.csv", 'a',encoding='utf-8').writelines(linesToAdd)
-			print(linesToAdd)
+			os.remove(csvToMergePath + file)
+
+	os.remove(csvPath + csvName + ".csv")
+	os.rename(csvPath + csvName + "WithoutUsedLines.csv", csvPath + csvName + ".csv")
 
 
-def mergeUsedLinesTxt(csvName):
-	txtPath = "/Users/leanovia/Downloads/"
+def mergeUsedLinesTxt(csvName, txtPath):
 
 	nbUsedLines = 0
 	for file in os.listdir(txtPath):
@@ -59,14 +56,24 @@ def mergeUsedLinesTxt(csvName):
 			os.remove(txtPath + file)
 	
 	open(txtPath + csvName + "UsedLines.txt",'w').writelines(str(nbUsedLines))
+
 	
 	
 	
 
                     
-DIR = "/Users/leanovia/Downloads/"
+csvPath = "/Users/leanovia/Downloads/testcsv/"
+csvModifPath = "/Users/leanovia/Downloads/testcsvModif/"
 
-mergeUsedLinesTxt("customcsv")
-removeLinesInFile("customcsv",DIR)
+for file in os.listdir(csvModifPath):
+	if file.endswith(".csv"):
+		csvname = file[:-4]
+		#mergeUsedLinesTxt(csvname,csvModifPath)
+		#removeLinesInFile(csvname,csvModifPath, csvModifPath)
+
+for file in os.listdir(csvPath):
+	if file.endswith(".csv"):
+		csvname = file[:-4]
+		mergeCSVFiles(csvname,csvModifPath,csvPath)
 
 
