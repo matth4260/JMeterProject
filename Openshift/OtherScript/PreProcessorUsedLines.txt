@@ -4,14 +4,35 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.io.Writer;
+import org.apache.commons.io.FileUtils;
 
-String IP = InetAddress.getLocalHost().getHostAddress();
-String filename = "/SharedVolume/csvModif/" + IP + "testInjector.txt";
+synchronized void addLineToFile(){
+	String csvName = "customcsv";
+	String UniqueIdInCsv = "user_ID"
+	
+	String IP = InetAddress.getLocalHost().getHostAddress();
+	String filename = csvName + IP + "${__threadNum}" + "UsedLines.txt";
+	int previousNumber = 0;
+	
+	if (new File(filename).exists()) {
+		String previousNumberString = org.apache.commons.io.FileUtils.readFileToString(new File(filename));
+		previousNumberString = previousNumberString.replace("\n", "").replace("\r", "");
+		previousNumber = Integer.parseInt(previousNumberString);
+	}
 
-f = new FileOutputStream(filename, true);
-p = new PrintStream(f);
 
-p.println(vars.get("user_ID"))
+	File file = new File(filename);
+	if (previousNumber <= Integer.parseInt(vars.get(UniqueIdInCsv))){
+		FileWriter fstream = new FileWriter(file, false);
+		// true, will append the file if already exist
+		
+		BufferedWriter out = new BufferedWriter(fstream);
+		out.write(vars.get(UniqueIdInCsv));
+		
+		out.close();
+		fstream.close();
+	}
+	
+}
 
-p.close();
-f.close();
+addLineToFile();
