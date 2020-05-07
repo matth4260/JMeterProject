@@ -5,6 +5,9 @@ NAMESPACE=jmeter
 MAXLOOP=${WAITING_TIME_MULTIPLIER}
 MAXWAITINGTIME=${TEST_MAX_DURATION}
 
+
+timeNow=$(date +%Y%m%d%H%M)
+
 openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc login -u $USER -p $PASSWORD -n jmeter -s https://cloud.leanovia.net:8443 --insecure-skip-tls-verify
 TOKEN=$(openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc whoami -t)
 echo "Launching key job"
@@ -12,7 +15,9 @@ responsekey=$(curl -k -X POST -d @json/jobjmeterkey.json -H "Authorization: Bear
 
 echo "Integrating jmx with Dynatrace"
 python3 integrateur_jmeter-dynatrace.py /SharedVolume/${JMX_NAME}.jmx /SharedVolume/${JSON_NAME}.json -t /SharedVolume/dynatrace-${JMX_NAME}.jmx
-
+echo "launching used csv script"
+python3 jmeterRemoveUsedLinesInCSV.py
+echo "used csv script done"
 
 
 ready=False
@@ -85,7 +90,8 @@ if test -f "$FILE"; then
         responsecont=$(curl -k -X POST -d @json/jobjmetercont.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
         finished="False"
         i=0
-        while [ $finished == "False" ] && [ $i -lt  $MAXWAITINGTIME ]
+        FILE=/SharedVolume/stopTest
+        while [ $finished == "False" ] && [ $i -lt  $MAXWAITINGTIME ] && ! test -f "$FILE";
         do
           echo "checking if Injectors are finished"
           sleep 60
@@ -107,10 +113,13 @@ if test -f "$FILE"; then
               READY="True"
             fi
           done
-          sleep 60
 
         else
-          echo "Test took too long to finish, now stopping it"
+          if [ $i -lt $MAXWAITINGTIME ]; then
+            echo "Test took too long to finish, now stopping it"
+          else
+            echo "Order to stop the test was given"
+          fi
         fi
         echo "closing controler job and container"
         responsedeletecont=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmetercont)
@@ -136,6 +145,58 @@ else
   echo "rmi_keystore couldn't be generated"
   echo "Stopping the test"
 fi
+
+echo "Starting ending session"
+
+
+
+FILE=/SharedVolume/rmi_keystore.jks
+if test -f "$FILE"; then
+  echo "deleting rmi keystore"
+  rm /SharedVolume/rmi_keystore.jks
+  echo "rmi keystore deleted"
+fi
+
+FILE=/SharedVolume/results.jtl
+if test -f "$FILE"; then
+
+  echo "moving results.jtl"
+  mv /SharedVolume/results.jtl /SharedVolume/results/$timeNow-results.jtl
+  echo "results.jtl moved"
+
+fi
+
+FILE=/SharedVolume/Results
+if [ -d "$FILE" ]; then
+
+  echo "moving Results folder"
+  mv /SharedVolume/Results /SharedVolume/results/$timeNow-Results
+  echo "Results folder moved"
+
+fi
+
+FILE=/SharedVolume/stopTest
+if test -f "$FILE"; then
+
+  echo "deleting stopTest"
+  rm /SharedVolume/stopTest
+  echo "stopTest deleted"
+
+fi
+
+FILE=/SharedVolume/csvModif/READY
+if test -f "$FILE"; then
+
+  echo "deleting READY file in csvModif"
+  rm /SharedVolume/csvModif/READY
+  echo "READY file in csvModif deleted"
+
+fi
+
+echo "Ending session finished"
+
+
+
 echo "Stopping key job and container"
 responsedeletekey=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterkey)
 responsedeletekey=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterkey)
@@ -144,3 +205,5 @@ echo "all jobs and pods closed"
 
 
 
+responsedeletemain=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmetermain)
+responsedeletemain=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetermain)

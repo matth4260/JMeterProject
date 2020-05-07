@@ -14,7 +14,7 @@ def removeLinesInFile(csvName, csvPath,txtPath):
 		csvLines = open(csvPath + csvName + '.csv', 'r',encoding='utf-8').readlines()
 
 		for csvLine in csvLines[1:]:
-			if int(csvLine[0:csvLine.find(',')]) <= int(usedLines[0]):
+			if int(csvLine[0:csvLine.find(';')]) <= int(usedLines[0]):
 				csvLines.pop(1)
 			else:
 				break
@@ -40,7 +40,9 @@ def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 			filesToMerge = True
 			linesToAdd = open(csvToMergePath + file, 'r',encoding='utf-8').readlines()
 			linesToAdd.pop(0) #removing header
-			open(csvPath + csvName + "WithoutUsedLines.csv", 'a',encoding='utf-8').writelines(linesToAdd)
+			f = open(csvPath + csvName + "WithoutUsedLines.csv", 'a',encoding='utf-8')
+			f.writelines(linesToAdd)
+			f.write('\n')
 			os.remove(csvToMergePath + file)
 
 	if filesToMerge:
