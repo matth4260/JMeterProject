@@ -35,26 +35,32 @@ def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 	open(csvPath + csvName + "WithoutUsedLines.csv", 'w',encoding='utf-8').writelines(csvHeader)
 
 	for file in os.listdir(csvToMergePath):
+		filesToMerge = False
 		if file.startswith(csvName):
+			filesToMerge = True
 			linesToAdd = open(csvToMergePath + file, 'r',encoding='utf-8').readlines()
 			linesToAdd.pop(0) #removing header
 			open(csvPath + csvName + "WithoutUsedLines.csv", 'a',encoding='utf-8').writelines(linesToAdd)
 			os.remove(csvToMergePath + file)
 
-	os.remove(csvPath + csvName + ".csv")
-	os.rename(csvPath + csvName + "WithoutUsedLines.csv", csvPath + csvName + ".csv")
+	if filesToMerge:
+		os.remove(csvPath + csvName + ".csv")
+		os.rename(csvPath + csvName + "WithoutUsedLines.csv", csvPath + csvName + ".csv")
+	else:
+		os.remove(csvPath + csvName + "WithoutUsedLines.csv")
 
 
 def mergeUsedLinesTxt(csvName, txtPath):
-
+	print("For " + csvName)
 	nbUsedLines = 0
 	for file in os.listdir(txtPath):
 		if file.startswith(csvName) and file.endswith("UsedLines.txt"):
 			fileLinesUsed = open(txtPath + file, 'r',encoding='utf-8').readlines()
+			print("we read in txt : " + fileLinesUsed[0])
 			if int(fileLinesUsed[0]) > nbUsedLines:
 				nbUsedLines=int(fileLinesUsed[0])
 			os.remove(txtPath + file)
-	
+	print("Lines : " + str(nbUsedLines))
 	open(txtPath + csvName + "UsedLines.txt",'w').writelines(str(nbUsedLines))
 
 	
@@ -62,18 +68,21 @@ def mergeUsedLinesTxt(csvName, txtPath):
 	
 
                     
-csvPath = "/Users/leanovia/Downloads/testcsv/"
-csvModifPath = "/Users/leanovia/Downloads/testcsvModif/"
+csvPath = "/SharedVolume/csv/"
+csvModifPath = "/SharedVolume/csvModif/"
 
 for file in os.listdir(csvModifPath):
 	if file.endswith(".csv"):
 		csvname = file[:-4]
-		#mergeUsedLinesTxt(csvname,csvModifPath)
-		#removeLinesInFile(csvname,csvModifPath, csvModifPath)
+		print("Merging TXT")
+		mergeUsedLinesTxt(csvname,csvModifPath)
+		print("Removing Lines in file")
+		removeLinesInFile(csvname,csvModifPath, csvModifPath)
 
 for file in os.listdir(csvPath):
 	if file.endswith(".csv"):
 		csvname = file[:-4]
+		print("merging csv files")
 		mergeCSVFiles(csvname,csvModifPath,csvPath)
 
 
