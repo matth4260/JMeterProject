@@ -34,8 +34,8 @@ def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 	csvHeader = open(csvPath + csvName + ".csv", 'r',encoding='utf-8').readline()
 	open(csvPath + csvName + "WithoutUsedLines.csv", 'w',encoding='utf-8').writelines(csvHeader)
 
+	filesToMerge = False
 	for file in os.listdir(csvToMergePath):
-		filesToMerge = False
 		if file.startswith(csvName):
 			filesToMerge = True
 			linesToAdd = open(csvToMergePath + file, 'r',encoding='utf-8').readlines()
@@ -44,25 +44,30 @@ def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 			os.remove(csvToMergePath + file)
 
 	if filesToMerge:
+		print("merge done")
 		os.remove(csvPath + csvName + ".csv")
 		os.rename(csvPath + csvName + "WithoutUsedLines.csv", csvPath + csvName + ".csv")
 	else:
+		print("no merge to do")
 		os.remove(csvPath + csvName + "WithoutUsedLines.csv")
 
 
 def mergeUsedLinesTxt(csvName, txtPath):
 	print("For " + csvName)
 	nbUsedLines = 0
+	filesToMerge = False
 	for file in os.listdir(txtPath):
 		if file.startswith(csvName) and file.endswith("UsedLines.txt"):
+			filesToMerge = True
 			fileLinesUsed = open(txtPath + file, 'r',encoding='utf-8').readlines()
 			print("we read in txt : " + fileLinesUsed[0])
 			if int(fileLinesUsed[0]) > nbUsedLines:
 				nbUsedLines=int(fileLinesUsed[0])
 			os.remove(txtPath + file)
 	print("Lines : " + str(nbUsedLines))
-	open(txtPath + csvName + "UsedLines.txt",'w').writelines(str(nbUsedLines))
-
+	if filesToMerge:
+		open(txtPath + csvName + "UsedLines.txt",'w').writelines(str(nbUsedLines))
+	return filesToMerge
 	
 	
 	
@@ -75,9 +80,9 @@ for file in os.listdir(csvModifPath):
 	if file.endswith(".csv"):
 		csvname = file[:-4]
 		print("Merging TXT")
-		mergeUsedLinesTxt(csvname,csvModifPath)
-		print("Removing Lines in file")
-		removeLinesInFile(csvname,csvModifPath, csvModifPath)
+		if mergeUsedLinesTxt(csvname,csvModifPath):
+			print("Removing Lines in file")
+			removeLinesInFile(csvname,csvModifPath, csvModifPath)
 
 for file in os.listdir(csvPath):
 	if file.endswith(".csv"):
