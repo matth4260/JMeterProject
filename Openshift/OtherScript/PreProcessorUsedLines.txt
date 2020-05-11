@@ -7,11 +7,12 @@ import java.io.Writer;
 import org.apache.commons.io.FileUtils;
 
 synchronized void addLineToFile(){
-	String csvName = "customcsv";
-	String UniqueIdInCsv = "user_ID"
+	String csvName = "user_creation_compte";
+	String UniqueIdInCsv = "jmeterfarm";
+	String txtPath = "/SharedVolume/csvModif/";
 	
 	String IP = InetAddress.getLocalHost().getHostAddress();
-	String filename = csvName + IP + "${__threadNum}" + "UsedLines.txt";
+	String filename = txtPath + csvName + "-" + IP + "${__threadNum}" + "UsedLines.txt";
 	int previousNumber = 0;
 	
 	if (new File(filename).exists()) {

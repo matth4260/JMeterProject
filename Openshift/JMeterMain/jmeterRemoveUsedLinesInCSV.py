@@ -42,7 +42,8 @@ def mergeCSVFiles(csvName,csvToMergePath, csvPath):
 			linesToAdd.pop(0) #removing header
 			f = open(csvPath + csvName + "WithoutUsedLines.csv", 'a',encoding='utf-8')
 			f.writelines(linesToAdd)
-			f.write('\n')
+			if not(linesToAdd[-1].endswith('\n')):
+				f.write('\n')
 			os.remove(csvToMergePath + file)
 
 	if filesToMerge:
@@ -70,6 +71,24 @@ def mergeUsedLinesTxt(csvName, txtPath):
 	if filesToMerge:
 		open(txtPath + csvName + "UsedLines.txt",'w').writelines(str(nbUsedLines))
 	return filesToMerge
+
+def refreshUniqueID(csvPath,csvName):
+	with open(csvPath + csvName + ".csv", "r", encoding='utf-8') as fin, open(csvPath + csvName + "RefreshedID.csv", "w",encoding='utf-8') as fout:
+		reader = csv.reader(fin,delimiter=';')
+		writer = csv.writer(fout,delimiter=';')
+		i=0
+		for row in reader:
+			if i==0:
+				writer.writerow(row)
+			else:
+				row[0] = str(i)
+				writer.writerow(row)
+			i+=1
+	os.remove(csvPath + csvName + ".csv")
+	os.rename(csvPath + csvName + "RefreshedID.csv", csvPath + csvName + ".csv")
+
+
+
 	
 	
 	
@@ -91,5 +110,7 @@ for file in os.listdir(csvPath):
 		csvname = file[:-4]
 		print("merging csv files")
 		mergeCSVFiles(csvname,csvModifPath,csvPath)
+		print("refres unique ID")
+		refreshUniqueID(csvPath,csvname)
 
 

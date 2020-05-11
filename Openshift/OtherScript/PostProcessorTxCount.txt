@@ -1,0 +1,49 @@
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.util.EntityUtils;
+
+sampleResult = sampler.sample();
+
+loadScriptName = "${__threadGroupName}";
+String loadTestName = "Null";
+ArrayList headerList = new ArrayList(Arrays.asList(sampleResult.getRequestHeaders().split(";")));
+for (int i=0; i<headerList.size(); i++){
+	if (headerList.get(i).contains("LTN")){
+		loadTestName = headerList.get(i).substring(4);
+	}
+}
+
+//prepare string for request
+result = new StringBuilder();
+
+result.append("jsr223postprocessor")
+.append(",loadtestname=")
+.append(loadTestName)
+.append(",loadscriptname=")
+.append(loadScriptName)
+.append(",injector=")
+.append("${__machineIP}")
+.append(" ")
+.append("count=")
+.append(sampleResult.getSampleCount())
+.append(" ")
+.append(sampleResult.getTimeStamp())
+.append("000000");
+
+
+//Post the result to influxDB 
+void PostMeasurement(String metric){
+httpclient = new DefaultHttpClient(new BasicHttpParams());
+httpPost = new HttpPost(); 
+httpPost.setURI(new URI("http://jmeterinfluxdb:8086/write?db=jmeterfarmtest"));
+httpPost.setEntity(new StringEntity(metric));
+HttpResponse response = httpclient.execute(httpPost);
+EntityUtils.consumeQuietly(response.getEntity());
+}
+
+//To call the function which posts the data
+PostMeasurement(result.toString());
+//log.info(""+result);
