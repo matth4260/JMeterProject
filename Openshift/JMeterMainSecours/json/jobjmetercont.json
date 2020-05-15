@@ -1,0 +1,51 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "name": "jobjmetercontsecours",
+    "namespace": "jmeter"
+  },
+  "spec": {
+    "parallelism": 1,
+    "completions": 1,
+    "template": {
+      "metadata": {
+        "name": "jmetercontsecours"
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "jmetercont",
+            "image": "docker-registry.default.svc:5000/jmeter/jmetercontsecours",
+            "volumeMounts": [
+              {
+                "mountPath": "/SharedVolume",
+                "name": "pvjmeter"
+              }
+            ],
+            "env": [
+              {
+                "name": "JMX_NAME",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "jmeter-config",
+                    "key": "jmx-name"
+                  }
+                }
+              }
+            ]
+          }
+        ],
+        "restartPolicy": "Never",
+        "volumes": [
+          {
+            "name": "pvjmeter",
+            "persistentVolumeClaim": {
+              "claimName": "jmeter"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

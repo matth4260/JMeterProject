@@ -5,10 +5,9 @@ allSucceeded = True
 
 
 for elem in tab:
-	if str(elem['metadata']['name']).startswith("jobjmeterinj"):
-		if elem['status']['phase'] != "Succeeded":
-			allSucceeded = False
-			break
+	if elem['status']['phase'] != "Succeeded":
+		allSucceeded = False
+		break
 
 if allSucceeded == True:
 	print("True")

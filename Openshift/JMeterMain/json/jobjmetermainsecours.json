@@ -1,0 +1,105 @@
+{  
+    "apiVersion": "batch/v1",
+    "kind": "Job",
+    "metadata": {
+      "name": "jobjmetermainsecours"
+    },
+    "spec": {
+      "parallelism": 1,
+      "completions": 1,
+      "template": {
+        "metadata": {
+          "name": "jmetermainsecours"
+        },
+        "spec": {
+          "containers": [
+            {
+              "name": "jmetermainsecours",
+              "image": "docker-registry.default.svc:5000/jmeter/jmetermainsecours",
+              "volumeMounts": [
+                {
+                  "mountPath": "/SharedVolume",
+                  "name": "pvjmeter"
+                }
+              ],
+              "env": [
+                {
+                  "name": "USER",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "oc-user",
+                      "key": "password"
+                    }
+                  }
+                },
+                {
+                  "name": "PASSWORD",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "name": "oc-password",
+                      "key": "password"
+                    }
+                  }
+                },
+                {
+                  "name": "NINJECTOR",
+                  "valueFrom": {
+                    "configMapKeyRef": {
+                      "name": "jmeter-config",
+                      "key": "number-of-injector"
+                    }
+                  }
+                },
+                {
+                  "name": "WAITING_TIME_MULTIPLIER",
+                  "valueFrom": {
+                    "configMapKeyRef": {
+                      "name": "jmeter-config",
+                      "key": "waiting-time-multiplier"
+                    }
+                  }
+                },
+                {
+                  "name": "TEST_MAX_DURATION",
+                  "valueFrom": {
+                    "configMapKeyRef": {
+                      "name": "jmeter-config",
+                      "key": "test-max-duration"
+                    }
+                  }
+                },
+                {
+                  "name": "JMX_NAME",
+                  "valueFrom": {
+                    "configMapKeyRef": {
+                      "name": "jmeter-config",
+                      "key": "jmx-name"
+                    }
+                  }
+                },
+                {
+                  "name": "JSON_NAME",
+                  "valueFrom": {
+                    "configMapKeyRef": {
+                      "name": "jmeter-config",
+                      "key": "json-name"
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "restartPolicy": "Never",
+          "volumes": [
+            {
+              "name": "pvjmeter",
+              "persistentVolumeClaim": {
+                "claimName": "jmeter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+  

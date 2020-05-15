@@ -1,0 +1,30 @@
+{
+	"apiVersion": "v1",
+	"kind": "Service",
+	"metadata": {
+		"labels": {
+			"app": "jmeter-inj"
+		},
+		"name": "jmeter-inj",
+		"namespace": "jmeter"
+	},
+	"spec": {
+		"clusterIP": "None",
+		"ports": [
+			{
+				"name": "web",
+				"port": 1099,
+				"protocol": "TCP",
+				"targetPort": 1099
+			}
+		],
+		"selector": {
+			"job-name": "jobjmeterinj"
+		},
+		"sessionAffinity": "None",
+		"type": "ClusterIP"
+	},
+	"status": {
+		"loadBalancer": {}
+	}
+}

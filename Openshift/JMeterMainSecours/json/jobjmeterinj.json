@@ -1,0 +1,49 @@
+{
+  "apiVersion": "batch/v1",
+  "kind": "Job",
+  "metadata": {
+    "name": "jobjmeterinj"
+  },
+  "spec": {
+    "parallelism": 2,
+    "completions": 2,
+    "template": {
+      "metadata": {
+        "name": "jmeterinj"
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "jmeterinj",
+            "image": "docker-registry.default.svc:5000/jmeter/jmeterinj",
+            "volumeMounts": [
+              {
+                "mountPath": "/SharedVolume",
+                "name": "pvjmeter"
+              }
+            ],
+            "readinessProbe": {
+              "exec": {
+                "command": [
+                  "/scriptReturnReadiness.sh",
+                  "$READY"
+                ]
+              },
+              "initialDelaySeconds": 5,
+              "periodSeconds": 5
+            }
+          }
+        ],
+        "restartPolicy": "Never",
+        "volumes": [
+          {
+            "name": "pvjmeter",
+            "persistentVolumeClaim": {
+              "claimName": "jmeter"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

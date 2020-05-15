@@ -34,6 +34,18 @@ RUN chgrp 0 jmeterInjChangeNumberInjector.py && \
     chmod g=u jmeterInjChangeNumberInjector.py && \
     chmod +x jmeterInjChangeNumberInjector.py
 
+COPY jmeterChangeSecoursNumber.py /jmeterChangeSecoursNumber.py
+RUN chgrp 0 jmeterChangeSecoursNumber.py && \
+    chmod g=u jmeterChangeSecoursNumber.py && \
+    chmod +x jmeterChangeSecoursNumber.py
+
+COPY manageCSV.py /manageCSV.py
+RUN chgrp 0 manageCSV.py && \
+    chmod g=u manageCSV.py && \
+    chmod +x manageCSV.py
+
+    
+
 RUN mkdir json
 RUN mkdir /.kube && \
     chgrp 0 /.kube && \
@@ -43,9 +55,6 @@ COPY json/jobjmetercont.json /json/jobjmetercont.json
 RUN chgrp 0 json/jobjmetercont.json && \
     chmod g=u json/jobjmetercont.json
 
-COPY json/jobjmeterkey.json /json/jobjmeterkey.json
-RUN chgrp 0 json/jobjmeterkey.json && \
-    chmod g=u json/jobjmeterkey.json
 
 COPY json/jobjmeterinj.json /json/jobjmeterinj.json
 RUN chgrp 0 json/jobjmeterinj.json && \
@@ -55,41 +64,10 @@ COPY json/injHeadlessService.json /json/injHeadlessService.json
 RUN chgrp 0 json/injHeadlessService.json && \
     chmod g=u json/injHeadlessService.json
 
-COPY json/jobjmetermainsecours.json /json/jobjmetermainsecours.json
-RUN chgrp 0 json/jobjmetermainsecours.json && \
-    chmod g=u json/jobjmetermainsecours.json
-
-COPY jmeterDecoupeCSV.py /jmeterDecoupeCSV.py
-RUN chgrp 0 jmeterDecoupeCSV.py && \
-    chmod g=u jmeterDecoupeCSV.py && \
-    chmod +x jmeterDecoupeCSV.py
-
-COPY jmeterRemoveUsedLinesInCSV.py /jmeterRemoveUsedLinesInCSV.py
-RUN chgrp 0 jmeterRemoveUsedLinesInCSV.py && \
-    chmod g=u jmeterRemoveUsedLinesInCSV.py && \
-    chmod +x jmeterRemoveUsedLinesInCSV.py
 
 RUN mkdir /Results && \
     chgrp 0 /Results && \
     chmod g=u /Results
-
-COPY integrateur_jmeter-dynatrace.py /integrateur_jmeter-dynatrace.py
-RUN chgrp 0 integrateur_jmeter-dynatrace.py && \
-    chmod g=u integrateur_jmeter-dynatrace.py && \
-    chmod +x integrateur_jmeter-dynatrace.py
-
-COPY jmeterManageCrashedInj.py /jmeterManageCrashedInj.py
-RUN chgrp 0 jmeterManageCrashedInj.py && \
-    chmod g=u jmeterManageCrashedInj.py && \
-    chmod +x jmeterManageCrashedInj.py
-
-COPY jmeterChangeSecoursNumber.py /jmeterChangeSecoursNumber.py
-RUN chgrp 0 jmeterChangeSecoursNumber.py && \
-    chmod g=u jmeterChangeSecoursNumber.py && \
-    chmod +x jmeterChangeSecoursNumber.py
-
-
-
 
 USER 1001
 

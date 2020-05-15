@@ -20,6 +20,17 @@ python3 jmeterRemoveUsedLinesInCSV.py
 echo "used csv script done"
 
 
+FILE=/SharedVolume/stopTest
+if test -f "$FILE"; then
+
+  echo "deleting stopTest"
+  rm /SharedVolume/stopTest
+  echo "stopTest deleted"
+
+fi
+
+
+
 ready=False
 i=0
 while [ "$ready" == False ] && [ $i -lt  $MAXLOOP ]
@@ -33,6 +44,10 @@ done
 FILE=/SharedVolume/rmi_keystore.jks
 if test -f "$FILE"; then
   echo "rmi_keystore generated"
+  echo "creating headless service"
+  reponseHeadlessService=$(curl -k -X POST -d @json/injHeadlessService.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/services)
+
+
   response=$(python3 jmeterInjChangeNumberInjector.py)
   echo "Launching Injectors job"
   responseInj=$(curl -k -X POST -d @json/jobjmeterinj.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
@@ -90,13 +105,31 @@ if test -f "$FILE"; then
         responsecont=$(curl -k -X POST -d @json/jobjmetercont.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
         finished="False"
         i=0
+        nbSecours=1
         FILE=/SharedVolume/stopTest
         while [ $finished == "False" ] && [ $i -lt  $MAXWAITINGTIME ] && ! test -f "$FILE";
         do
           echo "checking if Injectors are finished"
           sleep 60
-          finished=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmetercont | python3 jmeterInjEnded.py )
+          finished=$(curl -k     -H "Authorization: Bearer $TOKEN"     -H 'Accept: application/json'     https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods | python3 jmeterInjEnded.py )
           i=$(($i+1))
+          echo "checking if some injectors crashed"
+          responsecrashedinjector=$(curl -k -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods | python3 jmeterManageCrashedInj.py)
+          FILE1=/SharedVolume/injectorToRelaunch.txt
+          FILE2=/SharedVolume/secoursLaunched
+          if test -f "$FILE1"; then
+            if ! test -f "$FILE2"; then 
+
+              python3 jmeterChangeSecoursNumber.py $nbSecours
+              responsemainsecours=$(curl -k -X POST -d @json/jobjmetermainsecours.json -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs)
+              touch /SharedVolume/secoursLaunched
+              touch /SharedVolume/nbSecours${nbSecours}
+              nbSecours=$((nbSecours+1))
+
+              fi
+
+
+          fi
         done
         if [ "$finished" == "True" ]; then
           echo "Test finished"
@@ -175,14 +208,7 @@ if [ -d "$FILE" ]; then
 
 fi
 
-FILE=/SharedVolume/stopTest
-if test -f "$FILE"; then
 
-  echo "deleting stopTest"
-  rm /SharedVolume/stopTest
-  echo "stopTest deleted"
-
-fi
 
 FILE=/SharedVolume/csvModif/READY
 if test -f "$FILE"; then
@@ -192,6 +218,17 @@ if test -f "$FILE"; then
   echo "READY file in csvModif deleted"
 
 fi
+
+FILE=/SharedVolume/crashedInjectors.txt
+if test -f "$FILE"; then
+
+  echo "deleting crashedInjectors.txt"
+  rm /SharedVolume/crashedInjectors.txt
+  echo "crashedInjectors.txt deleted"
+
+fi
+
+
 
 echo "Ending session finished"
 
