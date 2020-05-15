@@ -35,4 +35,4 @@ RUN chgrp -R 0 /apache-jmeter-5.2.1 && \
 
 USER 1001
 
-ENTRYPOINT ["scriptJMeterInjBuild.sh"]
+ENTRYPOINT ["/scriptJMeterInjBuild.sh"]
