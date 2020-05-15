@@ -173,7 +173,9 @@ if test -f "$FILE"; then
   responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' -H 'Content-Type: application/json' https://$ENDPOINT/apis/batch/v1/namespaces/$NAMESPACE/jobs/jobjmeterinj)
   responsedeleteInj=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/pods?labelSelector=job-name=jobjmeterinj)
 
-  
+  echo "Removing headless service"
+  responseheadless=$(curl -k -X DELETE -H "Authorization: Bearer $TOKEN" -H 'Accept: application/json' https://$ENDPOINT/api/v1/namespaces/$NAMESPACE/services/jmeter-inj)
+
 else
   echo "rmi_keystore couldn't be generated"
   echo "Stopping the test"
