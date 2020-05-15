@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 9,
-  "iteration": 1588252578495,
+  "iteration": 1589526972852,
   "links": [],
   "panels": [
     {
@@ -37,6 +37,219 @@
       "type": "text"
     },
     {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "$Datasource",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 0,
+        "y": 2
+      },
+      "id": 34,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "pluginVersion": "6.6.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "groupBy": [],
+          "measurement": "jsr223postprocessor",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT count(*) FROM jsr223postprocessor WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": "4000,5040",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Nombre d'itérations total effectués",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": "$Datasource",
+      "gridPos": {
+        "h": 3,
+        "w": 12,
+        "x": 12,
+        "y": 2
+      },
+      "id": 37,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "defaults": {
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "No info",
+                "type": 1,
+                "value": "null"
+              },
+              {
+                "id": 1,
+                "op": "=",
+                "text": "Running...",
+                "type": 1,
+                "value": "1"
+              },
+              {
+                "id": 2,
+                "op": "=",
+                "text": "Finished",
+                "type": 1,
+                "value": "2"
+              }
+            ],
+            "nullValueMode": "connected",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "orange",
+                  "value": 1
+                },
+                {
+                  "color": "#299c46",
+                  "value": 2
+                }
+              ]
+            },
+            "unit": "none"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal"
+      },
+      "pluginVersion": "6.6.1",
+      "targets": [
+        {
+          "groupBy": [],
+          "measurement": "events",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT count(\"text\") FROM \"events\" WHERE (\"testTitle\" =~ /^$TestName$/) AND $timeFilter",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "text"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "testName",
+              "operator": "=~",
+              "value": "/^$TestName$/"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "STATUS",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -48,7 +261,7 @@
         "h": 6,
         "w": 6,
         "x": 0,
-        "y": 2
+        "y": 5
       },
       "hiddenSeries": false,
       "id": 4,
@@ -168,7 +381,7 @@
         "h": 6,
         "w": 6,
         "x": 6,
-        "y": 2
+        "y": 5
       },
       "hiddenSeries": false,
       "id": 6,
@@ -290,7 +503,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 2
+        "y": 5
       },
       "hiddenSeries": false,
       "id": 10,
@@ -363,7 +576,7 @@
               "condition": "AND",
               "key": "type",
               "operator": "=",
-              "value": "TRANSACTION"
+              "value": "REQUEST"
             }
           ]
         }
@@ -422,7 +635,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 11
       },
       "hiddenSeries": false,
       "id": 8,
@@ -510,7 +723,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Response time of all transactions (ms)",
+      "title": "Response time of all steps(ms)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -554,7 +767,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 11
       },
       "id": 12,
       "options": {
@@ -574,8 +787,12 @@
                   "value": null
                 },
                 {
+                  "color": "orange",
+                  "value": 1500
+                },
+                {
                   "color": "red",
-                  "value": 80
+                  "value": 3000
                 }
               ]
             }
@@ -657,7 +874,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 18
       },
       "id": 14,
       "options": {},
@@ -669,7 +886,7 @@
       },
       "styles": [
         {
-          "alias": "Transactions",
+          "alias": "Steps",
           "align": "left",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Metric",
@@ -689,8 +906,8 @@
           "mappingType": 1,
           "pattern": "Avg",
           "thresholds": [
-            "60",
-            "100"
+            "300",
+            "800"
           ],
           "type": "number",
           "unit": "short"
@@ -755,7 +972,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Transactions with highest response time (ms)",
+      "title": "Steps with highest response time (ms)",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
@@ -773,7 +990,7 @@
         "h": 7,
         "w": 6,
         "x": 12,
-        "y": 15
+        "y": 18
       },
       "id": 16,
       "options": {},
@@ -892,7 +1109,7 @@
         "h": 7,
         "w": 6,
         "x": 18,
-        "y": 15
+        "y": 18
       },
       "id": 18,
       "options": {},
@@ -1000,13 +1217,13 @@
       "type": "table"
     },
     {
-      "content": "<center><h1>$Scenario</h1></center>\n\n\n\n",
+      "content": "<center>SCENARIO<h1>$Scenario</h1></center>\n\n\n\n",
       "datasource": null,
       "gridPos": {
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 26
       },
       "id": 19,
       "mode": "html",
@@ -1015,6 +1232,118 @@
       "timeShift": null,
       "title": "",
       "type": "text"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#d44a3a",
+        "rgba(237, 129, 40, 0.89)",
+        "#299c46"
+      ],
+      "datasource": "$Datasource",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 35,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "pluginVersion": "6.6.1",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "groupBy": [],
+          "measurement": "jsr223postprocessor",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT count(*) FROM jsr223postprocessor WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "count"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "loadscriptname",
+              "operator": "=~",
+              "value": "/^$Scenario$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": "4000,5040",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Nombre d'itérations effectuées pour ${Scenario}",
+      "transparent": true,
+      "type": "singlestat",
+      "valueFontSize": "200%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "0",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
     },
     {
       "aliasColors": {},
@@ -1028,7 +1357,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 25
+        "y": 31
       },
       "hiddenSeries": false,
       "id": 20,
@@ -1122,7 +1451,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Response time of all transactions in $Scenario (ms)",
+      "title": "Response time of all steps in $Scenario (ms)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1166,7 +1495,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 25
+        "y": 31
       },
       "id": 23,
       "options": {
@@ -1275,7 +1604,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 31
+        "y": 37
       },
       "id": 21,
       "options": {},
@@ -1287,7 +1616,7 @@
       },
       "styles": [
         {
-          "alias": "Transactions",
+          "alias": "Steps",
           "align": "left",
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "pattern": "Metric",
@@ -1379,7 +1708,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Transactions with highest response time in $Scenario (ms)",
+      "title": "Steps with highest response time in $Scenario (ms)",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
@@ -1397,7 +1726,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 31
+        "y": 37
       },
       "id": 22,
       "options": {},
@@ -1499,19 +1828,19 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Error per Transaction in $Scenario",
+      "title": "Error per Step in $Scenario",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
     },
     {
-      "content": "<center><h1>$Scenario | $Transaction</h1></center>\n\n\n\n",
+      "content": "<center>STEP<h1>$Scenario | $Step</h1></center>\n\n\n\n",
       "datasource": null,
       "gridPos": {
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 45
       },
       "id": 24,
       "mode": "html",
@@ -1533,7 +1862,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 41
+        "y": 47
       },
       "hiddenSeries": false,
       "id": 25,
@@ -1618,7 +1947,7 @@
               "condition": "AND",
               "key": "label",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             },
             {
               "condition": "AND",
@@ -1633,7 +1962,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Response time of $Transaction (ms)",
+      "title": "Response time of $Step (ms)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1677,7 +2006,7 @@
         "h": 6,
         "w": 11,
         "x": 13,
-        "y": 41
+        "y": 47
       },
       "id": 27,
       "options": {
@@ -1768,14 +2097,14 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total errors in $Transaction",
+      "title": "Total errors in $Step",
       "transparent": true,
       "type": "gauge"
     },
@@ -1791,7 +2120,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 47
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 26,
@@ -1882,7 +2211,7 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             }
           ]
         }
@@ -1891,7 +2220,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Response time of all requests in $Scenario | $Transaction (ms)",
+      "title": "Response time of all requests in $Scenario | $Step (ms)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1942,7 +2271,7 @@
         "h": 8,
         "w": 10,
         "x": 13,
-        "y": 47
+        "y": 53
       },
       "id": 28,
       "options": {},
@@ -2043,14 +2372,14 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Error per Request in $Transaction",
+      "title": "Error per Request in $Step",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
@@ -2068,7 +2397,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 53
+        "y": 59
       },
       "id": 29,
       "options": {},
@@ -2171,30 +2500,32 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             }
           ]
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Requests with highest response time in $Transaction (ms)",
+      "title": "Requests with highest response time in $Step (ms)",
       "transform": "timeseries_aggregations",
       "transparent": true,
       "type": "table"
     },
     {
-      "content": "<center><h1>$Scenario | $Transaction | $Request</h1></center>\n\n\n\n",
+      "content": "<center>REQUEST<h1>$Scenario | $Step | $Request</h1></center>\n\n\n\n",
       "datasource": null,
+      "description": "",
       "gridPos": {
         "h": 2,
         "w": 24,
         "x": 0,
-        "y": 61
+        "y": 67
       },
       "id": 30,
       "mode": "html",
       "options": {},
+      "repeat": null,
       "timeFrom": null,
       "timeShift": null,
       "title": "",
@@ -2212,7 +2543,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 63
+        "y": 69
       },
       "hiddenSeries": false,
       "id": 31,
@@ -2297,7 +2628,7 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             },
             {
               "condition": "AND",
@@ -2362,7 +2693,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 63
+        "y": 69
       },
       "id": 32,
       "options": {
@@ -2453,7 +2784,7 @@
               "condition": "AND",
               "key": "transactionname",
               "operator": "=~",
-              "value": "/^$Transaction$/"
+              "value": "/^$Step$/"
             },
             {
               "condition": "AND",
@@ -2479,6 +2810,7 @@
     "list": [
       {
         "current": {
+          "selected": true,
           "text": "InfluxDB-jmeterfarmtest_Database",
           "value": "InfluxDB-jmeterfarmtest_Database"
         },
@@ -2497,8 +2829,35 @@
       {
         "allValue": null,
         "current": {
-          "text": "Visite_Simple",
-          "value": "Visite_Simple"
+          "selected": false,
+          "text": "2020-05-12_10-30_Test-condition-reel-20%",
+          "value": "2020-05-12_10-30_Test-condition-reel-20%"
+        },
+        "datasource": "$Datasource",
+        "definition": "SHOW TAG VALUES FROM \"jsr223postprocessor\" WITH KEY = \"loadtestname\"",
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "TestName",
+        "options": [],
+        "query": "SHOW TAG VALUES FROM \"jsr223postprocessor\" WITH KEY = \"loadtestname\"",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "CREATION_DE_COMPTE",
+          "value": "CREATION_DE_COMPTE"
         },
         "datasource": "$Datasource",
         "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"loadscriptname\"",
@@ -2522,18 +2881,19 @@
       {
         "allValue": null,
         "current": {
+          "selected": false,
           "text": "Accueil",
           "value": "Accueil"
         },
         "datasource": "$Datasource",
-        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/",
+        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND type='REQUEST'",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
-        "name": "Transaction",
+        "name": "Step",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/",
+        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"transactionname\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND type='REQUEST'",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2547,18 +2907,19 @@
       {
         "allValue": null,
         "current": {
+          "selected": true,
           "text": "/jpetstore/",
           "value": "/jpetstore/"
         },
         "datasource": "$Datasource",
-        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Transaction$/",
+        "definition": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Step$/",
         "hide": 0,
         "includeAll": false,
         "label": null,
         "multi": false,
         "name": "Request",
         "options": [],
-        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Transaction$/",
+        "query": "SHOW TAG VALUES FROM \"jsr223listener\" WITH KEY = \"label\" WHERE \"loadscriptname\" =~ /^$Scenario$/ AND \"transactionname\" =~ /^$Step$/",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2592,5 +2953,5 @@
   "timezone": "",
   "title": "JSR223",
   "uid": "V0VHFneZk",
-  "version": 27
+  "version": 71
 }
